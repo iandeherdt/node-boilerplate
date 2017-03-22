@@ -1,0 +1,26 @@
+{
+  "name": "node-security-service",
+  "version": "1.0.0",
+  "description": "a node single sign on service.login is a cross cutting concern and this is an attempt at solving it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iandeherdt/node-security-service.git"
+  },
+  "keywords": [
+    "single",
+    "sign",
+    "on",
+    "login",
+    "security"
+  ],
+  "author": "Ian De Herdt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iandeherdt/node-security-service/issues"
+  },
+  "homepage": "https://github.com/iandeherdt/node-security-service#readme"
+}
