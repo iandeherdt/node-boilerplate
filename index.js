@@ -4,7 +4,7 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-
+const routeConfig = require('./server/config/route-config.js');
 const app = express();
 // *** load environment variables *** //
 require('dotenv').config();
@@ -20,9 +20,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-
+routeConfig.init(app);
 const server = app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);
