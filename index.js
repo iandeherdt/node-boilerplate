@@ -23,6 +23,11 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(__dirname + '/dist'));
+app.get('*', function response(req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 routeConfig.init(app);
 const server = app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
