@@ -1,2 +1,5 @@
 # node-security-service
-a single sign on service
+boilerplate for application with authentication.
+
+##react frontend
+
