@@ -1,11 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const extractSass = new ExtractTextPlugin({
+    filename: "[name].[contenthash].css",
+    disable: false
+});
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'client/app.jsx')
   ],
   output: {
@@ -23,15 +27,20 @@ module.exports = {
       }
     },
     {
-      test: /\.s?css$/,
-      exclude: /node_modules/,
-      loaders: [
-          'style',
-          'css',
-          'sass',
-          'autoprefixer?browsers=last 2 version'
-      ]
-    }]
+      test: /\.scss$/,
+      use: extractSass.extract({
+      use: [
+        {loader: "css-loader"}, 
+        {loader: "resolve-url-loader"},
+        {loader: "sass-loader"}],
+        // use style-loader in development
+        fallback: "style-loader"
+      })
+    },{
+      test: /\.jpeg$/,
+      loader: 'file-loader'
+    }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -40,5 +49,6 @@ module.exports = {
       filename: 'index.html'
     }),
     new webpack.HotModuleReplacementPlugin(),
+    extractSass
   ]
 };
