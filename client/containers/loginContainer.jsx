@@ -2,13 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
+import api from '../api/user-api';
 class LoginContainer extends Component {
   constructor(props) {
     injectTapEventPlugin();
     super(props);
     this.state = {
-      user:{
-        userName:'',
+      user: {
+        username:'',
         password:''
       },
       next:'',
@@ -17,11 +18,11 @@ class LoginContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   onLogin(){
-    console.log('login');
+    api.login(this.state.user.username, this.state.user.password);
   }
-  handleChange(prop, value){
+  handleChange(prop, e){
     var currentUserState = this.state.user;
-    currentUserState[prop] = value;
+    currentUserState[prop] = e.target.value;
     this.setState({user:currentUserState});
   }
   render() {
@@ -31,8 +32,8 @@ class LoginContainer extends Component {
         <TextField
           id="usr-login-username"
           floatingLabelText="Username"
-          value={this.state.value}
-          onChange={this.handleChange.bind(null, 'userName')}
+          value={this.state.user.username}
+          onChange={this.handleChange.bind(null, 'username')}
         />
       </div>
       <div>
@@ -40,7 +41,7 @@ class LoginContainer extends Component {
           id="usr-login-password"
           floatingLabelText="Password"
           type="password"
-          value={this.state.value}
+          value={this.state.user.password}
           onChange={this.handleChange.bind(null, 'password')}
         />
       </div>
