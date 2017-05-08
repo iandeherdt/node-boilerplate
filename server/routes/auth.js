@@ -39,6 +39,7 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 
   router.get('/logout', authHelpers.loginRequired, (req, res, next) => {
+    console.log('logging out!!!!');
     req.logout();
     handleResponse(res, 200, 'success');
     return;
