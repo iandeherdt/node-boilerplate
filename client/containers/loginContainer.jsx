@@ -54,16 +54,12 @@ class LoginContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     user: state.user
   };
 }
 
 LoginContainer.propTypes = {
-  actions: PropTypes.shape({
-    login: PropTypes.func
-  }),
   user: PropTypes.object,
 };
 

@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
-
+const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/local');
+const jwt = require('jwt-simple');
 
 router.post('/register', (req, res, next)  => {
   return authHelpers.createUser(req, res)
   .then((response) => {
     passport.authenticate('local', (err, user, info) => {
-      if (user) { handleResponse(res, 200, 'success'); }
+      if (user) {
+        var token = jwt.encode(user, config.jwtSecret);
+        res.json({ token });
+      }else {
+        handleResponse(res, 404, 'User not found');
+      }
     })(req, res, next);
   })
   .catch((err) => { 
@@ -32,14 +38,14 @@ router.post('/login', (req, res, next) => {
           handleResponse(res, 500, 'error');
           return;
         }
-        handleResponse(res, 200, 'success');
+        var token = jwt.encode(user, config.jwtSecret);
+        res.json({ token });
         return;
       });
     }
   })(req, res, next);
 
   router.get('/logout', authHelpers.loginRequired, (req, res, next) => {
-    console.log('logging out!!!!');
     req.logout();
     handleResponse(res, 200, 'success');
     return;

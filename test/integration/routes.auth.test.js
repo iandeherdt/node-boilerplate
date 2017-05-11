@@ -1,8 +1,9 @@
 process.env.NODE_ENV = 'test';
-
+const jwt = require('jwt-simple');
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
+const config = require('../../server/config/config');
 const passportStub = require('passport-stub');
 chai.use(chaiHttp);
 
@@ -35,7 +36,8 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(200);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('success');
+        const decoded = jwt.decode(res.body.token, config.jwtSecret);
+        decoded.username.should.eql('michael');
         done();
       });
     });
@@ -53,7 +55,8 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(200);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('success');
+        const decoded = jwt.decode(res.body.token, config.jwtSecret);
+        decoded.username.should.eql('jeremy');
         done();
       });
     });
