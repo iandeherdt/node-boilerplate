@@ -5,13 +5,22 @@ const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/local');
 const jwt = require('jwt-simple');
 
+function createTokenInfo(user){
+  return {
+    id: user.uid,
+    username: user.username,
+    name: user.name,
+    email: user.email 
+  }
+}
 router.post('/register', (req, res, next)  => {
   return authHelpers.createUser(req, res)
   .then((response) => {
     passport.authenticate('local', (err, user, info) => {
       if (user) {
-        var token = jwt.encode(user, config.jwtSecret);
-        res.json({ token });
+        const userInfo = createTokenInfo(user);
+        const token = jwt.encode(userInfo, config.jwtSecret);
+        res.json({ token, user: userInfo });
       }else {
         handleResponse(res, 404, 'User not found');
       }
@@ -38,8 +47,9 @@ router.post('/login', (req, res, next) => {
           handleResponse(res, 500, 'error');
           return;
         }
-        var token = jwt.encode(user, config.jwtSecret);
-        res.json({ token });
+        const userInfo = createTokenInfo(user);
+        const token = jwt.encode(userInfo, config.jwtSecret);
+        res.json({ token, user: userInfo });
         return;
       });
     }

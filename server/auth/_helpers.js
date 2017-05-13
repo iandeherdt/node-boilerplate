@@ -10,7 +10,9 @@ function createUser (req) {
   return knex('users')
   .insert({
     username: req.body.username,
-    password: hash
+    password: hash,
+    name: req.body.name,
+    email: req.body.email
   })
   .returning('*');
 }

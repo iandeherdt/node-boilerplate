@@ -7,7 +7,6 @@ const initialState = {
 };
 const INITIAL_STATE = fromJS(initialState);
 const user = (state = INITIAL_STATE, action) => {
-  console.log(action.type);
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
       return fromJS({

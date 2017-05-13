@@ -29,7 +29,9 @@ describe('routes : auth', () => {
       .post('/auth/register')
       .send({
         username: 'michael',
-        password: 'herman'
+        password: 'herman',
+        name: 'mike',
+        email: 'mike@hotmail.com'
       })
       .end((err, res) => {
         should.not.exist(err);
@@ -38,6 +40,15 @@ describe('routes : auth', () => {
         res.type.should.eql('application/json');
         const decoded = jwt.decode(res.body.token, config.jwtSecret);
         decoded.username.should.eql('michael');
+        decoded.id.should.eql(3);
+        decoded.name.should.eql('mike');
+        decoded.email.should.eql('mike@hotmail.com');
+
+        const user = res.body.user;
+        user.username.should.eql('michael');
+        user.id.should.eql(3);
+        user.name.should.eql('mike');
+        user.email.should.eql('mike@hotmail.com');
         done();
       });
     });
@@ -48,7 +59,7 @@ describe('routes : auth', () => {
       .post('/auth/login')
       .send({
         username: 'jeremy',
-        password: 'johnson123'
+        password: 'johnson123',
       })
       .end((err, res) => {
         should.not.exist(err);
@@ -57,6 +68,15 @@ describe('routes : auth', () => {
         res.type.should.eql('application/json');
         const decoded = jwt.decode(res.body.token, config.jwtSecret);
         decoded.username.should.eql('jeremy');
+        decoded.id.should.eql(1);
+        decoded.name.should.eql('jerry');
+        decoded.email.should.eql('jerry@hotmail.com');
+
+        const user = res.body.user;
+        user.username.should.eql('jeremy');
+        user.id.should.eql(1);
+        user.name.should.eql('jerry');
+        user.email.should.eql('jerry@hotmail.com');
         done();
       });
     });
