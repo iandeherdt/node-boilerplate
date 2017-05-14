@@ -26,7 +26,12 @@ export function login(username, password){
       if(err){
         dispatch(loginUserFailure);
       } else {
-        dispatch(loginUserSuccess);
+        if(res.body.user){
+           dispatch(() => loginUserSuccess(res.body.user));
+        }else{
+          console.log('Error occured: ', res.body);
+        }
+       
       }
     });
   }

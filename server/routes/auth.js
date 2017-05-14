@@ -7,7 +7,7 @@ const jwt = require('jwt-simple');
 
 function createTokenInfo(user){
   return {
-    id: user.uid,
+    id: user.id,
     username: user.username,
     name: user.name,
     email: user.email 
@@ -32,34 +32,30 @@ router.post('/register', (req, res, next)  => {
 });
 
 router.post('/login', (req, res, next) => {
+  console.log('login');
   passport.authenticate('local', (err, user, info) => {
     if (err) {
-      handleResponse(res, 500, 'error');
-      return;
+      return handleResponse(res, 500, 'error');
     }
     if (!user) { 
-      handleResponse(res, 404, 'User not found');
-      return;
+      return handleResponse(res, 404, 'User not found');
     }
     if (user) {
       req.logIn(user, function (err) {
         if (err) { 
-          handleResponse(res, 500, 'error');
-          return;
+          return handleResponse(res, 500, 'error');
         }
         const userInfo = createTokenInfo(user);
         const token = jwt.encode(userInfo, config.jwtSecret);
-        res.json({ token, user: userInfo });
-        return;
+        return res.json({ token, user: userInfo });
       });
     }
   })(req, res, next);
+});
 
-  router.get('/logout', authHelpers.loginRequired, (req, res, next) => {
-    req.logout();
-    handleResponse(res, 200, 'success');
-    return;
-  });
+router.get('/logout', authHelpers.loginRequired, (req, res, next) => {
+  req.logout();
+  return res.json({status: 'success'})
 });
 
 function handleResponse(res, code, statusMsg) {

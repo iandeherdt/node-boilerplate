@@ -96,6 +96,31 @@ describe('routes : auth', () => {
         done();
       });
     });
+    it('should handle 2 consecutive logins', (done) => {
+      chai.request(server)
+      .post('/auth/login')
+      .send({
+        username: 'jeremy',
+        password: 'johnson123',
+      })
+      .end((err, res) => {
+        should.not.exist(err);
+        res.redirects.length.should.eql(0);
+        res.status.should.eql(200);
+        chai.request(server)
+        .post('/auth/login')
+        .send({
+          username: 'jeremy',
+          password: 'johnson123',
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(200);
+          done();
+        });
+      });
+    });
   });
   describe('GET /auth/logout', () => {
     it('should logout a user', (done) => {
