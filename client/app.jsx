@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import reducers from './reducers'
 import configureStore from './configureStore'
 import LoginContainer from './containers/loginContainer.jsx';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 require('./styles/main.scss');
 
 const store = configureStore();
@@ -14,7 +16,6 @@ const App = () => (
     <LoginContainer />
   </MuiThemeProvider>
 );
-
 ReactDOM.render(
   <Provider store={store}><App /></Provider>,
   document.getElementById('app')

@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import { login } from '../actions/user';
+import PropTypes from 'prop-types';
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
