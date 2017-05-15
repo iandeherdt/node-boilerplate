@@ -1,5 +1,5 @@
 process.env.NODE_ENV = 'test';
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
@@ -38,7 +38,7 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(200);
         res.type.should.eql('application/json');
-        const decoded = jwt.decode(res.body.token, config.jwtSecret);
+        const decoded = jwt.verify(res.body.token, config.jwtSecret);
         decoded.username.should.eql('michael');
         decoded.id.should.eql(3);
         decoded.name.should.eql('mike');
@@ -66,7 +66,7 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(200);
         res.type.should.eql('application/json');
-        const decoded = jwt.decode(res.body.token, config.jwtSecret);
+        const decoded = jwt.verify(res.body.token, config.jwtSecret);
         decoded.username.should.eql('jeremy');
         decoded.id.should.eql(1);
         decoded.name.should.eql('jerry');
@@ -128,8 +128,10 @@ describe('routes : auth', () => {
         username: 'jeremy',
         password: 'johnson123'
       });
+      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
       chai.request(server)
       .get('/auth/logout')
+      .set('Authorization', 'Bearer ' +  token)
       .end((err, res) => {
         should.not.exist(err);
         res.redirects.length.should.eql(0);
@@ -138,7 +140,7 @@ describe('routes : auth', () => {
         res.body.status.should.eql('success');
         done();
       });
-    });
+    })
     it('should throw an error if a user is not logged in', (done) => {
       chai.request(server)
       .get('/auth/logout')
@@ -151,15 +153,17 @@ describe('routes : auth', () => {
         done();
       });
     });
-  });
+  })
   describe('GET /user', () => {
     it('should return a success', (done) => {
+      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
       passportStub.login({
         username: 'jeremy',
         password: 'johnson123'
       });
       chai.request(server)
       .get('/user')
+      .set('Authorization', 'Bearer ' +  token)
       .end((err, res) => {
         should.not.exist(err);
         res.redirects.length.should.eql(0);

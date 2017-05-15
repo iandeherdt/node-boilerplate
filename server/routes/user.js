@@ -3,16 +3,12 @@ const router = express.Router();
 
 const authHelpers = require('../auth/_helpers');
 
-router.get('/user', authHelpers.loginRequired, (req, res, next)  => {
-  handleResponse(res, 200, 'success');
+router.get('/user', authHelpers.validateToken, (req, res, next)  => {
+  res.json({status: 'success'});
 });
 
 router.get('/admin', authHelpers.adminRequired, (req, res, next)  => {
-  handleResponse(res, 200, 'success');
+  res.json({status: 'success'});
 });
-
-function handleResponse(res, code, statusMsg) {
-  res.status(code).json({status: statusMsg});
-}
 
 module.exports = router;

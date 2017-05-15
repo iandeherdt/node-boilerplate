@@ -12,15 +12,15 @@ export function login(username, password){
           type: LOGIN_USER_FAILURE
         });
       } else {
-        if(res.body.user){
+        if(res.body.user && res.body.token){
            dispatch({
             type: LOGIN_USER_SUCCESS,
             data: res.body.user,
           });
+          sessionStorage.setItem('token', res.body.token);
         }else{
           console.log('Error occured: ', res.body);
         }
-       
       }
     });
   }

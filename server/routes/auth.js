@@ -3,7 +3,7 @@ const router = express.Router();
 const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/local');
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 
 function createTokenInfo(user){
   return {
@@ -19,7 +19,7 @@ router.post('/register', (req, res, next)  => {
     passport.authenticate('local', (err, user, info) => {
       if (user) {
         const userInfo = createTokenInfo(user);
-        const token = jwt.encode(userInfo, config.jwtSecret);
+        const token = jwt.sign(userInfo, config.jwtSecret);
         res.json({ token, user: userInfo });
       }else {
         handleResponse(res, 404, 'User not found');
@@ -40,19 +40,17 @@ router.post('/login', (req, res, next) => {
       return handleResponse(res, 404, 'User not found');
     }
     if (user) {
-      req.logIn(user, function (err) {
-        if (err) { 
-          return handleResponse(res, 500, 'error');
-        }
-        const userInfo = createTokenInfo(user);
-        const token = jwt.encode(userInfo, config.jwtSecret);
-        return res.json({ token, user: userInfo });
-      });
+      if (err) { 
+        return handleResponse(res, 500, 'error');
+      }
+      const userInfo = createTokenInfo(user);
+      const token = jwt.sign(userInfo, config.jwtSecret);
+      return res.json({ token, user: userInfo });
     }
   })(req, res, next);
 });
 
-router.get('/logout', authHelpers.loginRequired, (req, res, next) => {
+router.get('/logout', authHelpers.validateToken, (req, res, next) => {
   req.logout();
   return res.json({status: 'success'})
 });
