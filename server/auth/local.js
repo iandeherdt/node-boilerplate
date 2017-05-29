@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const authHelpers = require('./_helpers');
 const config = require('../config/config');
 const init = require('./passport');
@@ -41,6 +42,31 @@ passport.use(new BearerStrategy((token, done) => {
     .catch(done);
   });
 }));
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:4000/auth/login/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    knex('users').where({ facebookId: profile.id }).first()
+      .then((user) => {
+      if (!user){
+        const facebookUser = {
+          facebookId: profile.id,
+          name: profile.displayName
+        };
+        knex('users').insert(facebookUser)
+          .then(function (id) {
+            const newUser = Object.assign({}, facebookUser, {id}); 
+            return done(null, newUser);
+          }).catch((err) => { return done(err) });
+      } else {
+        return done(null, user);
+      }
+    })
+    .catch(done);
+  }
+));
 
 
 module.exports = passport;

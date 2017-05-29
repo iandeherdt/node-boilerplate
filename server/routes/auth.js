@@ -55,6 +55,16 @@ router.get('/logout', authHelpers.validateToken, (req, res, next) => {
   return res.json({status: 'success'})
 });
 
+router.get('/login/facebook', passport.authenticate('facebook'));
+
+router.get('/login/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  }
+);
+
 function handleResponse(res, code, statusMsg) {
   res.status(code).json({status: statusMsg});
 }

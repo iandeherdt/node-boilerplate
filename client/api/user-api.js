@@ -1,12 +1,27 @@
 const serverUrl = 'http://localhost:4000';
-const loginRoute = "/auth/login";
+const loginRoute = '/auth/login';
+const loginRouteFacebook = `${loginRoute}/facebook`;
+const userRoute = '/user';
 import request from 'superagent';
 
 module.exports = {
   login(username, password, callback){
-    const loginUrl = serverUrl + loginRoute;
-    request.post(loginUrl)
-    .send({username: username, password: password})
-    .end(callback);
-  }
+    const url = serverUrl + loginRoute;
+    request.post(url)
+      .send({username: username, password: password})
+      .end(callback);
+  },
+  getUser(callback){
+    const url = serverUrl + userRoute;
+    request.get(url)
+      .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
+      .end(callback);
+  },
+  loginFacebook(username, password, callback){
+    const url = serverUrl + loginRouteFacebook;
+    request.get(url)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({username: username, password: password})
+      .end(callback);
+  },
 }
