@@ -10,7 +10,9 @@ function createTokenInfo(user){
     id: user.id,
     username: user.username,
     name: user.name,
-    email: user.email 
+    email: user.email,
+    facebookId: user.facebookId,
+    googleId: user.googleId
   }
 }
 router.post('/register', (req, res, next)  => {
@@ -60,8 +62,11 @@ router.get('/login/facebook', passport.authenticate('facebook'));
 router.get('/login/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
+    const userInfo = createTokenInfo(req.user);
+    const token = jwt.sign(userInfo, config.jwtSecret);
+    req.token = token;
+    // Successful authentication, redirect to success page to pass token.
+    res.redirect('/loggedin?token=' + token);
   }
 );
 
