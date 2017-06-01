@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { login, getUser, facebookLogin } from '../actions/user';
+import { login } from '../actions/user';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -53,10 +56,13 @@ class LoginContainer extends Component {
           <FlatButton onClick={this.onLogin} label="Login" primary/>
         </div>
         <div>
-          <span>--- OR ---</span>
+          <span>{'--- OR ---'}</span>
         </div>
         <div>
           <FlatButton onClick={this.onFacebookLogin} label="Facebook" primary/>
+        </div>
+        <div>
+          <Link to="/order">{'Order'}</Link>
         </div>
       </div>
     </div>);
@@ -71,6 +77,7 @@ function mapStateToProps(state) {
 
 LoginContainer.propTypes = {
   user: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect(

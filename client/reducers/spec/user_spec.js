@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER } from '../../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS } from '../../constants';
 import reducer from '../user';
 
 const initialState = {

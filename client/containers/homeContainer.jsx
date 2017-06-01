@@ -6,7 +6,8 @@ class HomeContainer extends Component {
   render() {
     return (<div className="container">
       <div className="light-background large-padding">
-        <p>I'm home</p>
+        <p>I'm home</p> {//eslint-disable-line
+          }
       </div>
     </div>);
   }
