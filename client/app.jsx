@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import LoginContainer from './containers/loginContainer.jsx';
 import HomeContainer from './containers/homeContainer.jsx';
-import OAuthSuccessContainer from './containers/oAuthSuccessContainer.jsx';
 import OrderContainer from './containers/orderContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
+import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -24,8 +24,9 @@ const App = () => (
       <div className="container">
         <Route exact path="/" component={HomeContainer} />
         <Route path="/login" component={LoginContainer}/>
-        <Route path="/loginSuccess" component={OAuthSuccessContainer}/>
+        <Route path="/loginSuccess" component={AuthComplete}/>
         <PrivateRoute path="/order" store={store} component={OrderContainer}/>
+        <AuthComplete path="/authComplete" />
       </div>
     </Router>
   </MuiThemeProvider>

@@ -62,7 +62,7 @@ class LoginContainer extends Component {
           <FlatButton onClick={this.onFacebookLogin} label="Facebook" primary/>
         </div>
         <div>
-          <Link to="/order">{'Order'}</Link>
+          <Link to="/home">{'Home'}</Link>
         </div>
       </div>
     </div>);

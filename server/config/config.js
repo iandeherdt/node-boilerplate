@@ -1,6 +1,6 @@
 module.exports = {
-  jwtSecret: "DEVELOPMENT_SECRET",
+  jwtSecret: 'DEVELOPMENT_SECRET',
   jwtSession: {
-      session: false
+    session: false
   }
-}
+};

@@ -13,12 +13,17 @@ function createTokenInfo(user){
     email: user.email,
     facebookId: user.facebookId,
     googleId: user.googleId
-  }
+  };
 }
-router.post('/register', (req, res, next)  => {
+
+function handleResponse(res, code, statusMsg) {
+  res.status(code).json({status: statusMsg});
+}
+
+router.post('/register', (req, res, next) => {
   return authHelpers.createUser(req, res)
-  .then((response) => {
-    passport.authenticate('local', (err, user, info) => {
+  .then(() => {
+    passport.authenticate('local', (err, user) => {
       if (user) {
         const userInfo = createTokenInfo(user);
         const token = jwt.sign(userInfo, config.jwtSecret);
@@ -28,21 +33,21 @@ router.post('/register', (req, res, next)  => {
       }
     })(req, res, next);
   })
-  .catch((err) => { 
-    handleResponse(res, 500, 'error'); 
+  .catch(() => {
+    handleResponse(res, 500, 'error');
   });
 });
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+  passport.authenticate('local', (err, user) => {
     if (err) {
       return handleResponse(res, 500, 'error');
     }
-    if (!user) { 
+    if (!user) {
       return handleResponse(res, 404, 'User not found');
     }
     if (user) {
-      if (err) { 
+      if (err) {
         return handleResponse(res, 500, 'error');
       }
       const userInfo = createTokenInfo(user);
@@ -52,9 +57,9 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/logout', authHelpers.validateToken, (req, res, next) => {
+router.get('/logout', authHelpers.validateToken, (req, res, next) => {//eslint-disable-line
   req.logout();
-  return res.json({status: 'success'})
+  return res.json({status: 'success'});
 });
 
 router.get('/login/facebook', passport.authenticate('facebook'));
@@ -64,14 +69,9 @@ router.get('/login/facebook/callback',
   function(req, res) {
     const userInfo = createTokenInfo(req.user);
     const token = jwt.sign(userInfo, config.jwtSecret);
-    req.token = token;
     // Successful authentication, redirect to success page to pass token.
-    res.redirect('/loggedin?token=' + token);
+    res.redirect(`/authComplete?token=${token}&user=${req.user.name}`);
   }
 );
-
-function handleResponse(res, code, statusMsg) {
-  res.status(code).json({status: statusMsg});
-}
 
 module.exports = router;
