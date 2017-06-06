@@ -9,8 +9,9 @@ import OrderContainer from './containers/orderContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
 import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+import MenuBar from './components/menuBar.jsx';
 
 const history = createBrowserHistory();
 injectTapEventPlugin();
@@ -20,15 +21,17 @@ require('./styles/main.scss');
 const store = configureStore();
 const App = () => (
   <MuiThemeProvider>
-    <Router history={history}>
-      <div className="container">
-        <Route exact path="/" component={HomeContainer} />
-        <Route path="/login" component={LoginContainer}/>
-        <Route path="/loginSuccess" component={AuthComplete}/>
-        <PrivateRoute path="/order" store={store} component={OrderContainer}/>
-        <AuthComplete path="/authComplete" />
+    <BrowserRouter history={history}>
+      <div style={{display: 'flex', flexDirection: 'column', height:'100%'}}>
+        <MenuBar />
+        <div className="container">
+          <Route exact path="/" component={HomeContainer} />
+          <Route path="/login" component={LoginContainer}/>
+          <PrivateRoute path="/order" store={store} component={OrderContainer}/>
+          <AuthComplete path="/authComplete" />
+        </div>
       </div>
-    </Router>
+    </BrowserRouter>
   </MuiThemeProvider>
 );
 ReactDOM.render(

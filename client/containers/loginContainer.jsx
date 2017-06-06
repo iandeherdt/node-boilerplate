@@ -4,8 +4,6 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import { login } from '../actions/user';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -60,9 +58,6 @@ class LoginContainer extends Component {
         </div>
         <div>
           <FlatButton onClick={this.onFacebookLogin} label="Facebook" primary/>
-        </div>
-        <div>
-          <Link to="/home">{'Home'}</Link>
         </div>
       </div>
     </div>);

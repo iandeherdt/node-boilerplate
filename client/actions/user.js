@@ -1,4 +1,4 @@
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE } from '../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER } from '../constants';
 import api from '../api/user-api';
 
 export function login(username, password){
@@ -31,5 +31,14 @@ export function oAuthLoginSuccess(user, token){
       data: user,
     });
     sessionStorage.setItem('token', token);
+  };
+}
+
+export function logout(){
+  return dispatch => {
+    dispatch({
+      type: LOGOUT_USER,
+    });
+    sessionStorage.setItem('token', '');
   };
 }
