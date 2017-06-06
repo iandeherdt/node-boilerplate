@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const routeConfig = require('./server/config/route-config.js');
 const app = express();
 // *** load environment variables *** //
@@ -21,7 +20,7 @@ routeConfig.init(app);
 app.get('*', function response(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
-const server = app.listen(port, '0.0.0.0', function onStart(err) {
+app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);
   }

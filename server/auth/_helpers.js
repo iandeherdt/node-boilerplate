@@ -20,7 +20,7 @@ function createUser (req) {
 
 function validateToken(req, res, next) {
   passport.authenticate('bearer',
-    function(err, user, info) {
+    function(err, user) {
       if(err){
         return next(err);
       }
@@ -30,13 +30,13 @@ function validateToken(req, res, next) {
       } else {
         return res.status(401).json({ status: 'Please log in', code: 'unauthorized' });
       }
-  })(req, res, next);
+    })(req, res, next);
 }
 
 function adminRequired(req, res, next) {
   if (!req.user) {
     return res.status(401).json({status: 'Please log in'});
-  };
+  }
   return knex('users').where({username: req.user.username}).first()
   .then((user) => {
     if (!user.admin){
@@ -44,7 +44,7 @@ function adminRequired(req, res, next) {
     }
     return next();
   })
-  .catch((err) => {
+  .catch(() => {
     return res.status(500).json({status: 'Something bad happened'});
   });
 }

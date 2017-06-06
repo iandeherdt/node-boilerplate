@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
-const passport = require('../auth/local');
+const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
 
 function createTokenInfo(user){
