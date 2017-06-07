@@ -35,6 +35,7 @@ export function oAuthLoginSuccess(user, token){
 }
 
 export function logout(){
+  console.log(logout);
   return dispatch => {
     dispatch({
       type: LOGOUT_USER,

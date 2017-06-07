@@ -1,8 +1,16 @@
 # node-security-service
 boilerplate for application with authentication.
 
-##react frontend
+## react frontend
 
+### run
+npm install
 
-#webpack-watch
+### run tests
+nodemon
+
+### run server
+nodemon
+
+### run client
 webpack --progress --colors --watch

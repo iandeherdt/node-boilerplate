@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE } from '../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER } from '../constants';
 const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
@@ -23,6 +23,12 @@ const user = (state = INITIAL_STATE, action) => {
   case LOGIN_USER_REQUEST:
     return fromJS({
       isAuthenticating: true,
+      isAuthenticated: false,
+      user: undefined
+    });
+  case LOGOUT_USER:
+    return fromJS({
+      isAuthenticating: false,
       isAuthenticated: false,
       user: undefined
     });

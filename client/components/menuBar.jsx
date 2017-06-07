@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter} from 'react-router-dom';
 import { logout } from '../actions/user';
-const Authenticated = (props) => (
-  <IconMenu
+const Authenticated = (props) => {
+  return (<IconMenu
     {...props}
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
@@ -18,9 +18,11 @@ const Authenticated = (props) => (
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <MenuItem primaryText="Sign out" onClick={props.dispatch(logout())} />
-  </IconMenu>
-);
+    <MenuItem primaryText="Sign out" onClick={() => {
+      props.dispatch(logout());
+    }} />
+  </IconMenu>);
+};
 Authenticated.propTypes = {
   dispatch: PropTypes.func
 };
