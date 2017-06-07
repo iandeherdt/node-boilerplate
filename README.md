@@ -1,5 +1,5 @@
-# node-security-service
-boilerplate for application with authentication.
+# node-boilerplate
+boilerplate for future applications
 
 ## react frontend
 

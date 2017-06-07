@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: false
+  filename: '[name].[contenthash].css',
+  disable: false
 });
 
 module.exports = {
@@ -23,18 +23,18 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query:{
-         presets:['react']
+        presets:['react']
       }
     },
     {
       test: /\.scss$/,
       use: extractSass.extract({
-      use: [
-        {loader: "css-loader"}, 
-        {loader: "resolve-url-loader"},
-        {loader: "sass-loader"}],
-        // use style-loader in development
-        fallback: "style-loader"
+        use: [
+          {loader: 'css-loader'},
+          {loader: 'resolve-url-loader'},
+          {loader: 'sass-loader'}],
+          // use style-loader in development
+        fallback: 'style-loader'
       })
     },{
       test: /\.jpeg$/,

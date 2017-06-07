@@ -1,7 +1,7 @@
 {
-  "name": "node-security-service",
+  "name": "node-boilerplate",
   "version": "0.1.0",
-  "description": "A node single sign on service. Security is a cross cutting concern and this is an attempt at solving it.",
+  "description": "Boilerplate for future node projects",
   "main": "index.js",
   "babel": {
     "presets": [
