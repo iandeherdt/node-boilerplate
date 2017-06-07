@@ -7,7 +7,7 @@ boilerplate for future applications
 npm install
 
 ### run tests
-nodemon
+npm test
 
 ### run server
 nodemon
