@@ -12,7 +12,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import MenuBar from './components/menuBar.jsx';
-
+import theme from './styles/material-theme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 const history = createBrowserHistory();
 injectTapEventPlugin();
 require('./styles/main.scss');
@@ -20,7 +21,7 @@ require('./styles/main.scss');
 
 const store = configureStore();
 const App = () => (
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <BrowserRouter history={history}>
       <div style={{display: 'flex', flexDirection: 'column', height:'100%'}}>
         <MenuBar />
