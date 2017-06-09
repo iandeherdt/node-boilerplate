@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const knex = require('../db/connection');
 const passport = require('passport');
+const Boom = require('boom');
 function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
@@ -22,31 +23,29 @@ function validateToken(req, res, next) {
   passport.authenticate('bearer',
     function(err, user) {
       if(err){
-        return next(err);
+        return next(Boom.badImplementation(err));
       }
       if (user) {
         req.user = user;
         return next();
       } else {
-        return res.status(401).json({ status: 'Please log in', code: 'unauthorized' });
+        return next(Boom.unauthorized('Please log in.'));
       }
     })(req, res, next);
 }
 
 function adminRequired(req, res, next) {
   if (!req.user) {
-    return res.status(401).json({status: 'Please log in'});
+    return next(Boom.unauthorized('Please log in.'));
   }
   return knex('users').where({username: req.user.username}).first()
   .then((user) => {
     if (!user.admin){
-      return res.status(401).json({status: 'You are not authorized'});
+      return next(Boom.unauthorized('You are not authorized.'));
     }
     return next();
   })
-  .catch(() => {
-    return res.status(500).json({status: 'Something bad happened'});
-  });
+  .catch(next);
 }
 
 module.exports = {

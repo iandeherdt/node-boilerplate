@@ -21,7 +21,11 @@ body{
   align-items: flex-start;
   justify-content: flex-start;
 }
-
+.align-content-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .align-content-right{
   display: flex;
   align-items: flex-end;
@@ -33,7 +37,10 @@ body{
   opacity: 0.9;
 }
 
-.large-padding{
+.padding-top-large{
+  padding-top: 20px;
+}
+.padding-large{
   padding:20px;
 }
 

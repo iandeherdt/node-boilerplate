@@ -20,6 +20,7 @@ routeConfig.init(app);
 app.get('*', function response(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
+app.use(require('./server/utils/errorHandler'));
 app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);

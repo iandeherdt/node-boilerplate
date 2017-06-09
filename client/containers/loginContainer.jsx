@@ -32,7 +32,7 @@ class LoginContainer extends Component {
   }
   render() {
     return (<div className="container">
-      <div className="light-background large-padding">
+      <div className="light-background padding-large">
         <div>
           <TextField
             id="usr-login-username"
@@ -53,10 +53,10 @@ class LoginContainer extends Component {
         <div className="align-content-right">
           <FlatButton onClick={this.onLogin} label="Login" primary/>
         </div>
-        <div>
+        <div className="align-content-center padding-large">
           <span>{'--- OR ---'}</span>
         </div>
-        <div>
+        <div className="align-content-center">
           <FlatButton onClick={this.onFacebookLogin} label="Facebook" primary/>
         </div>
       </div>

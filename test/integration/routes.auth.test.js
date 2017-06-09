@@ -92,7 +92,9 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(404);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('User not found');
+        res.body.statusCode.should.eql(404);
+        res.body.error.should.eql('Not Found');
+        res.body.message.should.eql('User not found');
         done();
       });
     });
@@ -113,10 +115,10 @@ describe('routes : auth', () => {
           username: 'jeremy',
           password: 'johnson123',
         })
-        .end((err, res) => {
-          should.not.exist(err);
-          res.redirects.length.should.eql(0);
-          res.status.should.eql(200);
+        .end((err2, res2) => {
+          should.not.exist(err2);
+          res2.redirects.length.should.eql(0);
+          res2.status.should.eql(200);
           done();
         });
       });
@@ -131,7 +133,7 @@ describe('routes : auth', () => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
       chai.request(server)
       .get('/auth/logout')
-      .set('Authorization', 'Bearer ' +  token)
+      .set('Authorization', 'Bearer ' + token)
       .end((err, res) => {
         should.not.exist(err);
         res.redirects.length.should.eql(0);
@@ -140,7 +142,7 @@ describe('routes : auth', () => {
         res.body.status.should.eql('success');
         done();
       });
-    })
+    });
     it('should throw an error if a user is not logged in', (done) => {
       chai.request(server)
       .get('/auth/logout')
@@ -149,11 +151,13 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(401);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('Please log in');
+        res.body.statusCode.should.eql(401);
+        res.body.error.should.eql('Unauthorized');
+        res.body.message.should.eql('Please log in.');
         done();
       });
     });
-  })
+  });
   describe('GET /user', () => {
     it('should return a success', (done) => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
@@ -163,7 +167,7 @@ describe('routes : auth', () => {
       });
       chai.request(server)
       .get('/user')
-      .set('Authorization', 'Bearer ' +  token)
+      .set('Authorization', 'Bearer ' + token)
       .end((err, res) => {
         should.not.exist(err);
         res.redirects.length.should.eql(0);
@@ -181,7 +185,9 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(401);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('Please log in');
+        res.body.statusCode.should.eql(401);
+        res.body.error.should.eql('Unauthorized');
+        res.body.message.should.eql('Please log in.');
         done();
       });
     });
@@ -211,7 +217,9 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(401);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('Please log in');
+        res.body.statusCode.should.eql(401);
+        res.body.error.should.eql('Unauthorized');
+        res.body.message.should.eql('Please log in.');
         done();
       });
     });
@@ -227,7 +235,9 @@ describe('routes : auth', () => {
         res.redirects.length.should.eql(0);
         res.status.should.eql(401);
         res.type.should.eql('application/json');
-        res.body.status.should.eql('You are not authorized');
+        res.body.statusCode.should.eql(401);
+        res.body.error.should.eql('Unauthorized');
+        res.body.message.should.eql('You are not authorized.');
         done();
       });
     });

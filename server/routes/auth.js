@@ -4,7 +4,7 @@ const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
-
+const Boom = require('Boom');
 function createTokenInfo(user){
   return {
     id: user.id,
@@ -15,11 +15,6 @@ function createTokenInfo(user){
     googleId: user.googleId
   };
 }
-
-function handleResponse(res, code, statusMsg) {
-  res.status(code).json({status: statusMsg});
-}
-
 router.post('/register', (req, res, next) => {
   return authHelpers.createUser(req, res)
   .then(() => {
@@ -29,27 +24,22 @@ router.post('/register', (req, res, next) => {
         const token = jwt.sign(userInfo, config.jwtSecret);
         res.json({ token, user: userInfo });
       }else {
-        handleResponse(res, 404, 'User not found');
+        return next(Boom.notFound('User not found'));
       }
     })(req, res, next);
   })
-  .catch(() => {
-    handleResponse(res, 500, 'error');
-  });
+  .catch(next);
 });
 
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
     if (err) {
-      return handleResponse(res, 500, 'error');
+      return next(Boom.badImplementation());
     }
     if (!user) {
-      return handleResponse(res, 404, 'User not found');
+      return next(Boom.notFound('User not found'));
     }
     if (user) {
-      if (err) {
-        return handleResponse(res, 500, 'error');
-      }
       const userInfo = createTokenInfo(user);
       const token = jwt.sign(userInfo, config.jwtSecret);
       return res.json({ token, user: userInfo });

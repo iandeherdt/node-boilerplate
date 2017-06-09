@@ -59,7 +59,7 @@ passport.use(new FacebookStrategy({
             .then(function (id) {
               const newUser = Object.assign({}, facebookUser, {id});
               return done(null, newUser);
-            }).catch((err) => { return done(err);});
+            }).catch(done);
         } else {
           return done(null, user);
         }
