@@ -26,5 +26,13 @@ exports.seed = (knex, Promise) => {
         email: 'kel@hotmail.com'
       })
     );
+  })
+  .then(() => {
+    return Promise.join(
+      knex('users').insert({
+        name: 'Ian De Herdt',
+        facebookId: '123456'
+      })
+    );
   });
 };

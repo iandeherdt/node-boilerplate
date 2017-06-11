@@ -40,13 +40,13 @@ describe('routes : auth', () => {
         res.type.should.eql('application/json');
         const decoded = jwt.verify(res.body.token, config.jwtSecret);
         decoded.username.should.eql('michael');
-        decoded.id.should.eql(3);
+        decoded.id.should.eql(4);
         decoded.name.should.eql('mike');
         decoded.email.should.eql('mike@hotmail.com');
 
         const user = res.body.user;
         user.username.should.eql('michael');
-        user.id.should.eql(3);
+        user.id.should.eql(4);
         user.name.should.eql('mike');
         user.email.should.eql('mike@hotmail.com');
         done();
@@ -161,10 +161,6 @@ describe('routes : auth', () => {
   describe('GET /user', () => {
     it('should return a success', (done) => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
-      passportStub.login({
-        username: 'jeremy',
-        password: 'johnson123'
-      });
       chai.request(server)
       .get('/user')
       .set('Authorization', 'Bearer ' + token)
