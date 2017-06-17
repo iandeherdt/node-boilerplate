@@ -9,11 +9,17 @@ const AuthComplete = ({ ...rest }) => {
     const parsed = queryString.parse(props.location.search);
     if(parsed.token){
       rest.dispatch(oAuthLoginSuccess({name: parsed.user}, parsed.token));
-      return (<Redirect to={{
-        pathname: '/',
-        state: { from: props.location }
-      }}/>);
-    }else {
+      if(parsed.registered == 'true'){ //eslint-disable-line eqeqeq
+        return (<Redirect to={{
+          pathname: '/',
+          state: { from: props.location }
+        }}/>);
+      } else {
+        return (<Redirect to={{
+          pathname: '/register'
+        }}/>);
+      }
+    } else {
       return (<Redirect to={{
         pathname: '/login',
         state: { from: props.location }

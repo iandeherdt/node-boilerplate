@@ -24,7 +24,7 @@ describe('routes : auth', () => {
     //return knex.migrate.rollback();
   });
   describe('PUT /user', () => {
-    it('should register a new user', (done) => {
+    it('should update a new user', (done) => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
       chai.request(server)
       .put('/user/3')

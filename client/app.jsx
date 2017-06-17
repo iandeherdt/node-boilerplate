@@ -6,6 +6,7 @@ import configureStore from './configureStore';
 import LoginContainer from './containers/loginContainer.jsx';
 import HomeContainer from './containers/homeContainer.jsx';
 import OrderContainer from './containers/orderContainer.jsx';
+import RegisterUserContainer from './containers/registerUserContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
 import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -14,12 +15,18 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import MenuBar from './components/menuBar.jsx';
 import theme from './styles/material-theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 const history = createBrowserHistory();
 injectTapEventPlugin();
 require('./styles/main.scss');
 
-
 const store = configureStore();
+
+//configure translation
+import { Configure, Translate } from './I18n/translate';
+Configure('en');
+global.t = Translate;
+
 const App = () => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <BrowserRouter history={history}>
@@ -29,6 +36,7 @@ const App = () => (
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>
           <PrivateRoute path="/order" store={store} component={OrderContainer}/>
+          <PrivateRoute path="/register" store={store} component={RegisterUserContainer}/>
           <AuthComplete path="/authComplete" />
         </div>
       </div>
