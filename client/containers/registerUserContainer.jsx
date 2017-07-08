@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import Address from '../components/address.jsx';
+import { register } from '../actions/user';
 class RegisterUserContainer extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ class RegisterUserContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeAddress = this.handleChangeAddress.bind(this);
     this.getErrorMessageForInput = this.getErrorMessageForInput.bind(this);
+    this.onRegisterClick = this.onRegisterClick.bind(this);
   }
   handleChange(prop, e){
     var currentUserState = this.state.user;
@@ -36,29 +38,38 @@ class RegisterUserContainer extends Component {
     currentUserState.address[prop] = value;
     this.setState({user:currentUserState});
   }
+  onRegisterClick(){
+    //todo add validation
+    this.props.dispatch(register(this.state.user));
+  }
   getErrorMessageForInput(){
     return '';
   }
   render() {
     return (<div className="container">
-      <div className="light-background padding-large">
-        <div>
-          <TextField
-            id="usr-register-firstname"
-            floatingLabelText="Firstname"
-            value={this.state.user.firstname}
-            onChange={this.handleChange.bind(null, 'firstname')}
-          />
+      <div className="light-background padding-left-right-large padding-bottom-large" style={{maxWidth:'720px'}}>
+        <div className="margin-left-right-small">
+          <h2 className="inlineH2">{t('personalInfoTitle')}</h2>
         </div>
-        <div>
-          <TextField
-            id="usr-register-lastname"
-            floatingLabelText="Lastname"
-            value={this.state.user.lastname}
-            onChange={this.handleChange.bind(null, 'lastname')}
-          />
+        <div className="flex-row">
+          <div className="flex-col">
+            <TextField
+              id="usr-register-firstname"
+              floatingLabelText="Firstname"
+              value={this.state.user.firstname}
+              onChange={this.handleChange.bind(null, 'firstname')}
+            />
+          </div>
+          <div className="flex-col">
+            <TextField
+              id="usr-register-lastname"
+              floatingLabelText="Lastname"
+              value={this.state.user.lastname}
+              onChange={this.handleChange.bind(null, 'lastname')}
+            />
+          </div>
         </div>
-        <div>
+        <div className="margin-left-right-small">
           <TextField
             id="usr-register-email"
             floatingLabelText="Email"
@@ -69,7 +80,7 @@ class RegisterUserContainer extends Component {
         <Address onChange={this.handleChangeAddress} address={this.state.user.address} title={'Personal address'}
           getErrorMessageForInput={this.getErrorMessageForInput}/>
         <div className="align-content-right">
-          <FlatButton label="Register" primary/>
+          <FlatButton label="Register" primary onClick={this.onRegisterClick}/>
         </div>
       </div>
     </div>);

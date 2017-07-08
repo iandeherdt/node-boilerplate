@@ -5,6 +5,10 @@ boilerplate for future applications
 
 ### run
 npm install
+docker build -t boilerplate-db server/db .
+docker run -p 127.0.0.1:5432:5432 --name <containerid> -t boilerplate-db
+create a database named node-security
+run knex migrate:latest
 
 ### run tests
 npm test

@@ -1,6 +1,10 @@
+$primary-brown: #795548;
 body, html, #app {
   height: 100%;
   margin:0px;
+}
+h1, h2, h3 {
+  color: $primary-brown;
 }
 body{
   background: url('../images/background.jpeg');
@@ -40,8 +44,39 @@ body{
 .padding-top-large{
   padding-top: 20px;
 }
+.padding-bottom-large{
+  padding-bottom: 20px;
+}
 .padding-large{
   padding:20px;
+}
+.padding-left-right-large{
+  padding-left:20px;
+  padding-right:20px;
+}
+.margin-large{
+  margin:20px;
+}
+.margin-left-right-small{
+  margin-left:5px;
+  margin-right:5px;
+}
+.flex-row{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.flex-col{
+  flex:1;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.inlineH2 {
+  margin-bottom: 0;
+  margin-top: 30px
 }
 
 //remove yellow background in chrome

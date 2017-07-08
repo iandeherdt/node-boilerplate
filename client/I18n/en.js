@@ -39,6 +39,7 @@ const translations = {
   maxLength:' has a maximum length of ',
   minLength:' has a minimum length of ',
   notEmail: ' is not a valid email',
+  personalInfoTitle: 'Personal information'
 };
 
 module.exports = translations;

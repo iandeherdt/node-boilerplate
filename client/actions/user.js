@@ -1,4 +1,5 @@
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER } from '../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
+  REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS } from '../constants';
 import api from '../api/user-api';
 
 export function login(username, password){
@@ -40,5 +41,24 @@ export function logout(){
       type: LOGOUT_USER,
     });
     sessionStorage.setItem('token', '');
+  };
+}
+
+export function register(user){
+  return dispatch => {
+    return api.register(user, (err, res) => {
+      if(err){
+        dispatch({
+          type: REGISTER_USER_FAILURE
+        });
+      } else if(res.body){
+        dispatch({
+          type: REGISTER_USER_SUCCESS,
+          data: res.body,
+        });
+      } else {
+        console.log('Error occured: ', res.body);
+      }
+    });
   };
 }

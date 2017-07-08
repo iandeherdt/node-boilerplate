@@ -15,5 +15,12 @@ module.exports = {
     request.get(url)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .end(callback);
+  },
+  register(user, callback){
+    const url = `${serverUrl}${userRoute}${user.id}`;
+    request.put(url)
+      .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
+      .send(user)
+      .end(callback);
   }
 };

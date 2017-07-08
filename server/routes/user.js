@@ -44,7 +44,6 @@ router.put('/user/:id', (req, res, done) => {
         return res.json(`updated ${result} rows`);
       })
       .catch(done);
-   
   }
 });
 
