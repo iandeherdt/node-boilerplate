@@ -17,7 +17,7 @@ module.exports = {
       .end(callback);
   },
   register(user, callback){
-    const url = `${serverUrl}${userRoute}${user.id}`;
+    const url = `${serverUrl}${userRoute}/${user.id}`;
     request.put(url)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send(user)

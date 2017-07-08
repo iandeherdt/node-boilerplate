@@ -40,7 +40,8 @@ class RegisterUserContainer extends Component {
   }
   onRegisterClick(){
     //todo add validation
-    this.props.dispatch(register(this.state.user));
+    const user = Object.assign({}, this.props.user.get('user').toJS(), this.state.user);
+    this.props.dispatch(register(user));
   }
   getErrorMessageForInput(){
     return '';

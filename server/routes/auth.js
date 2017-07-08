@@ -60,7 +60,7 @@ router.get('/login/facebook/callback',
     const userInfo = createTokenInfo(req.user);
     const token = jwt.sign(userInfo, config.jwtSecret);
     // Successful authentication, redirect to success page to pass token.
-    res.redirect(`/authComplete?token=${token}&user=${req.user.name}&registered=${!!req.user.registered}`);
+    res.redirect(`/authComplete?token=${token}&id=${req.user.id}&user=${req.user.name}&registered=${!!req.user.registered}`);
   }
 );
 
