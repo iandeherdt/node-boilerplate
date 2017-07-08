@@ -11,17 +11,17 @@ class RegisterUserContainer extends Component {
     this.state = {
       user: {
         firstname: '',
-        lastname: '',
+        name: '',
         email: '',
-        address:{
-          street:'',
-          housenumber:'',
-          busnumber:'',
-          postalcode:'',
-          city:'',
-          country:'belgium'
-        }
       },
+      address:{
+        street:'',
+        house:'',
+        bus:'',
+        postal:'',
+        city:'',
+        country:'belgium'
+      }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeAddress = this.handleChangeAddress.bind(this);
@@ -29,18 +29,18 @@ class RegisterUserContainer extends Component {
     this.onRegisterClick = this.onRegisterClick.bind(this);
   }
   handleChange(prop, e){
-    var currentUserState = this.state.user;
+    let currentUserState = this.state.user;
     currentUserState[prop] = e.target.value;
-    this.setState({user:currentUserState});
+    this.setState({user: currentUserState});
   }
   handleChangeAddress(prop, value){
-    var currentUserState = this.state.user;
-    currentUserState.address[prop] = value;
-    this.setState({user:currentUserState});
+    let currentUAddressState = this.state.address;
+    currentUAddressState[prop] = value;
+    this.setState({address: currentUAddressState});
   }
   onRegisterClick(){
     //todo add validation
-    const user = Object.assign({}, this.props.user.get('user').toJS(), this.state.user);
+    const user = Object.assign({}, this.props.user.get('user').toJS(), this.state.user, this.state.address);
     this.props.dispatch(register(user));
   }
   getErrorMessageForInput(){
@@ -65,8 +65,8 @@ class RegisterUserContainer extends Component {
             <TextField
               id="usr-register-lastname"
               floatingLabelText="Lastname"
-              value={this.state.user.lastname}
-              onChange={this.handleChange.bind(null, 'lastname')}
+              value={this.state.user.name}
+              onChange={this.handleChange.bind(null, 'name')}
             />
           </div>
         </div>
@@ -78,7 +78,7 @@ class RegisterUserContainer extends Component {
             onChange={this.handleChange.bind(null, 'email')}
           />
         </div>
-        <Address onChange={this.handleChangeAddress} address={this.state.user.address} title={'Personal address'}
+        <Address onChange={this.handleChangeAddress} address={this.state.address} title={'Personal address'}
           getErrorMessageForInput={this.getErrorMessageForInput}/>
         <div className="align-content-right">
           <FlatButton label="Register" primary onClick={this.onRegisterClick}/>

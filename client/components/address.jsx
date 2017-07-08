@@ -14,10 +14,10 @@ const Address = ({address, onChange, getErrorMessageForInput, title}) => {
               <h2 className="inlineH2">{title}</h2>
             </div>
             <div>
-              <TextField id="name" type="text" onChange={(e) => {onChange('name', e.target.value);}}
+              <TextField id="addressName" type="text" onChange={(e) => {onChange('addressName', e.target.value);}}
                   floatingLabelText={t('name')}
                   defaultValue={address.name}
-                  errorText={getErrorMessageForInput('name')} />
+                  errorText={getErrorMessageForInput('addressName')} />
             </div>
             <div className="flex-row">
               <div className="flex-column">
@@ -27,18 +27,18 @@ const Address = ({address, onChange, getErrorMessageForInput, title}) => {
                     errorText={getErrorMessageForInput('street')} />
               </div>
               <div className="flex-column">
-                <TextField id="housenumber" type="text" onChange={(e) => {onChange('housenumber', e.target.value);}}
+                <TextField id="house" type="text" onChange={(e) => {onChange('house', e.target.value);}}
                     floatingLabelText={t('housenumber')}
                     defaultValue={address.housenumber}
-                    errorText={getErrorMessageForInput('housenumber')} />
+                    errorText={getErrorMessageForInput('house')} />
               </div>
             </div>
             <div className="flex-row">
               <div className="flex-column">
-                <TextField id="busnumber" type="text" onChange={(e) => {onChange('busnumber', e.target.value);}}
+                <TextField id="bus" type="text" onChange={(e) => {onChange('bus', e.target.value);}}
                     floatingLabelText={t('bus')}
                     defaultValue={address.busnumber}
-                    errorText={getErrorMessageForInput('busnumber')} />
+                    errorText={getErrorMessageForInput('bus')} />
               </div>
             </div>
             <div className="flex-row">
@@ -49,10 +49,10 @@ const Address = ({address, onChange, getErrorMessageForInput, title}) => {
                     errorText={getErrorMessageForInput('city')} />
               </div>
               <div className="flex-column">
-                <TextField id="postalcode" type="text" onChange={(e) => {onChange('postalcode', e.target.value);}}
+                <TextField id="postal" type="text" onChange={(e) => {onChange('postal', e.target.value);}}
                     floatingLabelText={t('postalcode')}
                       defaultValue={address.postalcode}
-                    errorText={getErrorMessageForInput('postalcode')} />
+                    errorText={getErrorMessageForInput('postal')} />
               </div>
             </div>
             <div>

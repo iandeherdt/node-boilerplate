@@ -5,6 +5,7 @@ const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
 const Boom = require('Boom');
+
 function createTokenInfo(user){
   return {
     id: user.id,

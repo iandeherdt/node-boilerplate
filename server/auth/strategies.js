@@ -53,7 +53,7 @@ passport.use(new FacebookStrategy({
         if (!user){
           const facebookUser = {
             facebookId: profile.id,
-            name: profile.displayName
+            name: profile.displayName,
           };
           knex('users').insert(facebookUser)
             .then(function (id) {
