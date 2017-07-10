@@ -13,6 +13,7 @@ class RegisterUserContainer extends Component {
         firstname: '',
         name: '',
         email: '',
+        password: ''
       },
       address:{
         street:'',
@@ -77,6 +78,15 @@ class RegisterUserContainer extends Component {
             value={this.state.user.email}
             onChange={this.handleChange.bind(null, 'email')}
           />
+          <div className="margin-left-right-small">
+            <TextField
+              id="usr-register-password"
+              floatingLabelText="Password"
+              value={this.state.user.email}
+              type="password"
+              onChange={this.handleChange.bind(null, 'password')}
+            />
+          </div>
         </div>
         <Address onChange={this.handleChangeAddress} address={this.state.address} title={'Personal address'}
           getErrorMessageForInput={this.getErrorMessageForInput}/>

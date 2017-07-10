@@ -5,33 +5,7 @@ const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
 const Boom = require('Boom');
-
-function createTokenInfo(user){
-  return {
-    id: user.id,
-    username: user.username,
-    name: user.name,
-    email: user.email,
-    facebookId: user.facebookId,
-    googleId: user.googleId
-  };
-}
-router.post('/register', (req, res, next) => {
-  return authHelpers.createUser(req, res)
-  .then(() => {
-    passport.authenticate('local', (err, user) => {
-      if (user) {
-        const userInfo = createTokenInfo(user);
-        const token = jwt.sign(userInfo, config.jwtSecret);
-        res.json({ token, user: userInfo });
-      }else {
-        return next(Boom.notFound('User not found'));
-      }
-    })(req, res, next);
-  })
-  .catch(next);
-});
-
+const createTokenInfo = require('../utils/createTokenInfo');
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
     if (err) {

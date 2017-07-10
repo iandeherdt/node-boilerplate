@@ -4,6 +4,11 @@ const knex = require('../db/connection');
 const Boom = require('boom');
 const authHelpers = require('../auth/_helpers');
 const mapUser = require('../mappers/map-user');
+const passport = require('../auth/strategies');
+const createTokenInfo = require('../utils/createTokenInfo');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+
 router.get('/user/:id', authHelpers.validateToken, (req, res, done) => {
   if(!req.params.id){
     return done(Boom.badRequest('no id supplied'));
@@ -48,6 +53,22 @@ router.put('/user/:id', (req, res, done) => {
         });
     }).catch(done);
   }
+});
+
+router.post('/user', (req, res, next) => {
+  return authHelpers.createUser(req, res)
+  .then(() => {
+    passport.authenticate('local', (err, user) => {
+      if (user) {
+        const userInfo = createTokenInfo(user);
+        const token = jwt.sign(userInfo, config.jwtSecret);
+        res.json({ token, user: userInfo });
+      }else {
+        return next(Boom.notFound('User not found'));
+      }
+    })(req, res, next);
+  })
+  .catch(next);
 });
 
 module.exports = router;

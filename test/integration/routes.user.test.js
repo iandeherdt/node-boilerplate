@@ -21,7 +21,7 @@ describe('routes : auth', () => {
 
   afterEach(() => {
     passportStub.logout();
-    //return knex.migrate.rollback();
+    return knex.migrate.rollback();
   });
   describe('PUT /user', () => {
     it('should update a new user', (done) => {

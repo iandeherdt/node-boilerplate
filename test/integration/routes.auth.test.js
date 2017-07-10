@@ -23,10 +23,10 @@ describe('routes : auth', () => {
     passportStub.logout();
     return knex.migrate.rollback();
   });
-  describe('POST /auth/register', () => {
+  describe('POST /user', () => {
     it('should register a new user', (done) => {
       chai.request(server)
-      .post('/auth/register')
+      .post('/user')
       .send({
         username: 'michael',
         password: 'herman',
