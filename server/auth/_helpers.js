@@ -52,8 +52,23 @@ function adminRequired(req, res, next) {
 }
 
 function resetPassword(req, res, next){
-  const sessionid = req.params.id;
-
+  const resetid = req.params.id;
+  console.log(resetid);
+   if (!resetid) {
+    return next(Boom.badRequest('No reset id provided.'));
+  }
+  knex('users').where({resetid: resetid}).first()
+    .then((user) => {
+      if (!user){
+        return next(Boom.notFound('Reset id not valid.'));
+      }
+      const expiration = moment(user.userexpiration);
+      if(moment().isAfter(expiration)){
+        return next(Boom.badRequest('Reset id expired'));
+      }
+      //create a jwt token for the user so he can update his password.
+      //navigate to reset password page.
+    });
 }
 
 function forgotPassword(req, res, next){
