@@ -36,7 +36,7 @@ const App = () => (
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>
           <PrivateRoute path="/order" store={store} component={OrderContainer}/>
-          <PrivateRoute path="/register" store={store} component={RegisterUserContainer}/>
+          <Route path="/register" store={store} component={RegisterUserContainer}/>
           <AuthComplete path="/authComplete" />
         </div>
       </div>

@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import Address from '../components/address.jsx';
-import { register } from '../actions/user';
+import { register, registerSocial } from '../actions/user';
 class RegisterUserContainer extends Component {
   constructor(props) {
     super(props);
@@ -41,8 +41,13 @@ class RegisterUserContainer extends Component {
   }
   onRegisterClick(){
     //todo add validation
-    const user = Object.assign({}, this.props.user.get('user').toJS(), this.state.user, this.state.address);
-    this.props.dispatch(register(user));
+    const serverUser = this.props.user.get('user') ? this.props.user.get('user').toJS() : null;
+    const user = Object.assign({}, serverUser, this.state.user, this.state.address);
+    if(serverUser && serverUser.id){
+      this.props.dispatch(registerSocial(user));
+    } else {
+      this.props.dispatch(register(user));
+    }
   }
   getErrorMessageForInput(){
     return '';
@@ -82,7 +87,7 @@ class RegisterUserContainer extends Component {
             <TextField
               id="usr-register-password"
               floatingLabelText="Password"
-              value={this.state.user.email}
+              value={this.state.user.password}
               type="password"
               onChange={this.handleChange.bind(null, 'password')}
             />

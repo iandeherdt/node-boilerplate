@@ -3,7 +3,7 @@ module.exports = {
     const authRoutes = require('../routes/auth');
     const userRoutes = require('../routes/user');
     app.use('/auth', authRoutes);
-    app.use('/', userRoutes);
+    app.use('/user', userRoutes);
     
   }
 };

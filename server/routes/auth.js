@@ -39,4 +39,6 @@ router.get('/login/facebook/callback',
   }
 );
 
+router.post('/password/forgot', authHelpers.forgotPassword);
+
 module.exports = router;

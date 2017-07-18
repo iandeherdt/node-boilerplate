@@ -9,7 +9,7 @@ const createTokenInfo = require('../utils/createTokenInfo');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
-router.get('/user/:id', authHelpers.validateToken, (req, res, done) => {
+router.get('/:id', authHelpers.validateToken, (req, res, done) => {
   if(!req.params.id){
     return done(Boom.badRequest('no id supplied'));
   } else {
@@ -29,7 +29,7 @@ router.get('/user/:id', authHelpers.validateToken, (req, res, done) => {
   }
 });
 
-router.get('/user', authHelpers.validateToken, (req, res) => {
+router.get('/', authHelpers.validateToken, (req, res) => {
   res.json({status: 'success'});
 });
 
@@ -37,7 +37,7 @@ router.get('/admin', authHelpers.adminRequired, (req, res) => {
   res.json({status: 'success'});
 });
 
-router.put('/user/:id', (req, res, done) => {
+router.put('/:id', (req, res, done) => {
   if(!req.params.id){
     return done(Boom.badRequest('no id supplied'));
   } else {
@@ -55,7 +55,7 @@ router.put('/user/:id', (req, res, done) => {
   }
 });
 
-router.post('/user', (req, res, next) => {
+router.post('/', (req, res, next) => {
   return authHelpers.createUser(req, res)
   .then(() => {
     passport.authenticate('local', (err, user) => {

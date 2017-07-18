@@ -188,14 +188,14 @@ describe('routes : auth', () => {
       });
     });
   });
-  describe('GET /admin', () => {
+  describe('GET /user/admin', () => {
     it('should return a success', (done) => {
       passportStub.login({
         username: 'kelly',
         password: 'bryant123'
       });
       chai.request(server)
-      .get('/admin')
+      .get('/user/admin')
       .end((err, res) => {
         should.not.exist(err);
         res.redirects.length.should.eql(0);
@@ -225,7 +225,7 @@ describe('routes : auth', () => {
         password: 'johnson123'
       });
       chai.request(server)
-      .get('/admin')
+      .get('/user/admin')
       .end((err, res) => {
         should.exist(err);
         res.redirects.length.should.eql(0);

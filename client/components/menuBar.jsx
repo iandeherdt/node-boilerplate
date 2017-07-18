@@ -39,10 +39,17 @@ class MenuBar extends Component {
         <AppBar
           title="Super awesome app"
           onTitleTouchTap={() => { history.push('/');}}
-          iconElementRight={user.get('isAuthenticated') ? <Authenticated dispatch={this.props.dispatch}/> : <FlatButton onClick={(e) => {
-            e.stopPropagation();
-            history.push('/login');
-          }} label="Login" />}
+          iconElementRight={user.get('isAuthenticated') ? <Authenticated dispatch={this.props.dispatch}/> :
+            <span>
+              <FlatButton onClick={(e) => {
+                e.stopPropagation();
+                history.push('/register');
+              }} label="Register" />
+              <FlatButton onClick={(e) => {
+                e.stopPropagation();
+                history.push('/login');
+              }} label="Login" />
+            </span>}
         />
       </div>
     );
