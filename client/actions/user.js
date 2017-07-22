@@ -1,6 +1,7 @@
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
   REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS } from '../constants';
 import api from '../api/user-api';
+import { Redirect } from 'react-router-dom';
 
 export function login(username, password){
   return dispatch => {
@@ -58,6 +59,18 @@ export function register(user){
         });
       } else {
         console.log('Error occured: ', res.body);
+      }
+    });
+  };
+}
+
+export function resetPassword(password, confirmPassword, token, history){
+  return dispatch => {
+    return api.resetPassword(password, confirmPassword, token, (err, res) => {
+      if(err){
+        console.log('Error occured: ', err);
+      } else {
+        history.push('login')
       }
     });
   };

@@ -7,6 +7,7 @@ import LoginContainer from './containers/loginContainer.jsx';
 import HomeContainer from './containers/homeContainer.jsx';
 import OrderContainer from './containers/orderContainer.jsx';
 import RegisterUserContainer from './containers/registerUserContainer.jsx';
+import ResetPasswordContainer from './containers/resetPasswordContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
 import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -35,8 +36,9 @@ const App = () => (
         <div className="container">
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>
-          <PrivateRoute path="/order" store={store} component={OrderContainer}/>
           <Route path="/register" store={store} component={RegisterUserContainer}/>
+          <Route path="/resetpassword" store={store} component={ResetPasswordContainer}/>
+          <PrivateRoute path="/order" store={store} component={OrderContainer}/>
           <AuthComplete path="/authComplete" />
         </div>
       </div>

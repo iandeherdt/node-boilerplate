@@ -52,22 +52,19 @@ function adminRequired(req, res, next) {
 }
 
 function resetPassword(req, res, next){
-  const resetid = req.params.id;
-  console.log(resetid);
-   if (!resetid) {
-    return next(Boom.badRequest('No reset id provided.'));
+  const resettoken = req.query.token;
+   if (!resettoken) {
+    return next(Boom.badRequest('No reset token provided.'));
   }
-  knex('users').where({resetid: resetid}).first()
+  knex('users').where({resettoken: resettoken}).first()
     .then((user) => {
       if (!user){
-        return next(Boom.notFound('Reset id not valid.'));
+        return next(Boom.notFound('Reset token not valid.'));
       }
       const expiration = moment(user.userexpiration);
       if(moment().isAfter(expiration)){
-        return next(Boom.badRequest('Reset id expired'));
+        return next(Boom.badRequest('Reset token expired'));
       }
-      //create a jwt token for the user so he can update his password.
-      //navigate to reset password page.
     });
 }
 
@@ -85,7 +82,7 @@ function forgotPassword(req, res, next){
         if(err){
           next(err);
         }
-        const resetid = buffer.toString('hex');
+        const resettoken = buffer.toString('hex');
         return knex('users').where({email: email})
           .update('resetid', resetid)
           .update('resetexpiration', moment().add(1, 'hour').format("YYYY-MM-DD HH:mm:ss"))
@@ -94,7 +91,7 @@ function forgotPassword(req, res, next){
               from:'ian.de.herdt@telenet.be',
               to:'ian.deherdt@gmail.com',
               subject:'Reset your password',
-              html: `<span>follow this link to reset your password: http://localhost:4000/auth/password/reset?id=${resetid}</span>`
+              html: `<span>follow this link to reset your password: http://localhost:4000/resetpassword?token=${resettoken}</span>`
             }, next);
           });
       });
