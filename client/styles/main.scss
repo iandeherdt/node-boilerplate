@@ -2,6 +2,8 @@ $primary-brown: #795548;
 body, html, #app {
   height: 100%;
   margin:0px;
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.8);;
 }
 h1, h2, h3 {
   color: $primary-brown;
@@ -19,7 +21,9 @@ body{
   align-items: center;
   justify-content: center;
 }
-
+.full-width{
+  width: 100%;
+}
 .align-content-left{
   display: flex;
   align-items: flex-start;
@@ -41,6 +45,11 @@ body{
   opacity: 0.9;
 }
 
+.medium-background{
+  background: white;
+  opacity: 0.95;
+}
+
 .padding-top-large{
   padding-top: 20px;
 }
@@ -49,6 +58,10 @@ body{
 }
 .padding-large{
   padding:20px;
+}
+.padding-top-bottom-super-large{
+  padding-top:50px;
+  padding-bottom: 70px;
 }
 .padding-left-right-large{
   padding-left:20px;
@@ -60,6 +73,9 @@ body{
 .margin-left-right-small{
   margin-left:5px;
   margin-right:5px;
+}
+.padding-medium{
+  padding:10px;
 }
 .flex-row{
   display: flex;
@@ -79,6 +95,38 @@ body{
   margin-top: 30px
 }
 
+.menubar-position{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menubar-link{
+  text-decoration: none;
+  font-size: 12px;
+  color: grey;
+  opacity: 0.6;
+  &:hover, &.active{
+    color: $primary-brown;
+    opacity: 0.95;
+  }
+}
+.max-content-width{
+  max-width: 1024px;
+}
+
+.transparent{
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  h2{
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.centered-content{
+  display: flex;
+  justify-content: center;
+}
 //remove yellow background in chrome
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

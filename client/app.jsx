@@ -13,7 +13,7 @@ import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
-import MenuBar from './components/menuBar.jsx';
+import MenuBar from './components/menuBarV2.jsx';
 import theme from './styles/material-theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 

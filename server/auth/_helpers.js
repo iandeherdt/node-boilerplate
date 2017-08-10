@@ -53,17 +53,25 @@ function adminRequired(req, res, next) {
 
 function resetPassword(req, res, next){
   const resettoken = req.query.token;
-   if (!resettoken) {
+  if (!resettoken) {
     return next(Boom.badRequest('No reset token provided.'));
   }
-  knex('users').where({resettoken: resettoken}).first()
+  knex('users').where({resetid: resettoken}).first()
     .then((user) => {
       if (!user){
         return next(Boom.notFound('Reset token not valid.'));
       }
-      const expiration = moment(user.userexpiration);
+      const expiration = moment(user.resetexpiration);
       if(moment().isAfter(expiration)){
         return next(Boom.badRequest('Reset token expired'));
+      } else if(req.body.password === req.body.confirmpassword){
+        const salt = bcrypt.genSaltSync();
+        const hash = bcrypt.hashSync(req.body.password, salt);
+        knex('users').where({email: email})
+          .update('password', hash)
+          .then(() => {
+            res
+          })
       }
     });
 }
@@ -84,7 +92,7 @@ function forgotPassword(req, res, next){
         }
         const resettoken = buffer.toString('hex');
         return knex('users').where({email: email})
-          .update('resetid', resetid)
+          .update('resetid', resettoken)
           .update('resetexpiration', moment().add(1, 'hour').format("YYYY-MM-DD HH:mm:ss"))
           .then((result) => {
             return sendEmail({
