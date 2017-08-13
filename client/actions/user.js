@@ -1,5 +1,5 @@
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
-  REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS } from '../constants';
+  REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_SUCCESS } from '../constants';
 import api from '../api/user-api';
 
 export function login(username, password){
@@ -56,8 +56,6 @@ export function register(user){
           type: REGISTER_USER_SUCCESS,
           data: res.body,
         });
-      } else {
-        console.log('Error occured: ', res.body);
       }
     });
   };
@@ -71,4 +69,22 @@ export function resetPassword(password, confirmPassword, token, history){
       history.push('login');
     }
   });
+}
+
+export function forgotPassword(email){
+  return dispatch => {
+    return api.forgotPassword(email, (err) => {
+      if(err){
+        dispatch({
+          type: FORGOT_PASSWORD_FAILURE,
+          data: email,
+        });
+      } else {
+        dispatch({
+          type: FORGOT_PASSWORD_SUCCESS,
+          data: email,
+        });
+      }
+    });
+  };
 }

@@ -63,6 +63,8 @@ function mapStateToProps(state) {
 ResetPasswordContainer.propTypes = {
   user: PropTypes.object,
   dispatch: PropTypes.func,
+  location: PropTypes.object,
+  history: PropTypes.object
 };
 
 export default connect(

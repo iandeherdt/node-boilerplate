@@ -8,6 +8,7 @@ import HomeContainer from './containers/homeContainer.jsx';
 import OrderContainer from './containers/orderContainer.jsx';
 import RegisterUserContainer from './containers/registerUserContainer.jsx';
 import ResetPasswordContainer from './containers/resetPasswordContainer.jsx';
+import ForgotPasswordContainer from './containers/forgotPasswordContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
 import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -31,13 +32,14 @@ global.t = Translate;
 const App = () => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <BrowserRouter history={history}>
-      <div style={{display: 'flex', flexDirection: 'column', height:'100%'}}>
+      <div>
         <MenuBar />
-        <div className="container">
+        <div className="container margin-top-large">
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>
           <Route path="/register" store={store} component={RegisterUserContainer}/>
           <Route path="/resetpassword" store={store} component={ResetPasswordContainer}/>
+          <Route path="/forgotpassword" store={store} component={ForgotPasswordContainer}/>
           <PrivateRoute path="/order" store={store} component={OrderContainer}/>
           <AuthComplete path="/authComplete" />
         </div>

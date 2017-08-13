@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import { login } from '../actions/user';
 import PropTypes from 'prop-types';
+import { NavLink} from 'react-router-dom';
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -58,6 +59,12 @@ class LoginContainer extends Component {
         </div>
         <div className="align-content-center">
           <FlatButton onClick={this.onFacebookLogin} label="Facebook" primary/>
+        </div>
+        <div className="align-content-center">
+          <NavLink className="padding-large menubar-link" to="/register">{t('REGISTER')}</NavLink>
+        </div>
+        <div className="align-content-center">
+          <NavLink className="menubar-link" to="/forgotpassword">{t('FORGOT PASSWORD?')}</NavLink>
         </div>
       </div>
     </div>);
