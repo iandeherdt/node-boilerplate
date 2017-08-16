@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER } from '../../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER,
+  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../../constants';
 import reducer from '../user';
 
 const initialState = {
@@ -43,5 +44,31 @@ describe('user reducer', () => {
     assert.equal(nextState.get('isAuthenticated'), false);
     assert.equal(nextState.getIn(['user', 'id']), undefined);
     assert.equal(nextState.getIn(['user', 'name']), undefined);
+  });
+
+  it('handles FORGOT_PASSWORD_REQUEST', () => {
+    const actionForgotPw = {type: FORGOT_PASSWORD_REQUEST };
+    const newState = reducer(undefined, actionForgotPw);
+    assert.equal(newState.get('isSendingForgotPwLink'), true);
+    assert.equal(newState.get('isAuthenticating'), false);
+    assert.equal(newState.get('isAuthenticated'), false);
+  });
+  it('handles FORGOT_PASSWORD_SUCCESS', () => {
+    const actionForgotPw = {type: FORGOT_PASSWORD_REQUEST };
+    const newState = reducer(undefined, actionForgotPw);
+    assert.equal(newState.get('isSendingForgotPwLink'), true);
+    const actionForgotPwSuccess = {type: FORGOT_PASSWORD_SUCCESS, data: 'iandeherdt@somemail.be' };
+    const successState = reducer(undefined, actionForgotPwSuccess);
+    assert.equal(successState.get('isSendingForgotPwLink'), false);
+    assert.equal(successState.get('sentPwLinkTo'), 'iandeherdt@somemail.be');
+  });
+  it('handles FORGOT_PASSWORD_FAILURE', () => {
+    const actionForgotPw = {type: FORGOT_PASSWORD_REQUEST };
+    const newState = reducer(undefined, actionForgotPw);
+    assert.equal(newState.get('isSendingForgotPwLink'), true);
+    const actionForgotPwSuccess = {type: FORGOT_PASSWORD_FAILURE };
+    const successState = reducer(undefined, actionForgotPwSuccess);
+    assert.equal(successState.get('isSendingForgotPwLink'), false);
+    assert.equal(successState.get('sentPwLinkTo'), undefined);
   });
 });

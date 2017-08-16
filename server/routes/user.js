@@ -9,6 +9,10 @@ const createTokenInfo = require('../utils/createTokenInfo');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
+router.get('/admin', authHelpers.validateToken, authHelpers.adminRequired, (req, res) => {
+  res.json({status: 'success'});
+});
+
 router.get('/:id', authHelpers.validateToken, (req, res, done) => {
   if(!req.params.id){
     return done(Boom.badRequest('no id supplied'));
@@ -33,10 +37,6 @@ router.get('/', authHelpers.validateToken, (req, res) => {
   res.json({status: 'success'});
 });
 
-router.get('/admin', authHelpers.adminRequired, (req, res) => {
-  res.json({status: 'success'});
-});
-
 router.put('/:id', (req, res, done) => {
   if(!req.params.id){
     return done(Boom.badRequest('no id supplied'));
@@ -57,18 +57,18 @@ router.put('/:id', (req, res, done) => {
 
 router.post('/', (req, res, next) => {
   return authHelpers.createUser(req, res)
-  .then(() => {
-    passport.authenticate('local', (err, user) => {
-      if (user) {
-        const userInfo = createTokenInfo(user);
-        const token = jwt.sign(userInfo, config.jwtSecret);
-        res.json({ token, user: userInfo });
-      }else {
-        return next(Boom.notFound('User not found'));
-      }
-    })(req, res, next);
-  })
-  .catch(next);
+    .then(() => {
+      passport.authenticate('local', (err, user) => {
+        if (user) {
+          const userInfo = createTokenInfo(user);
+          const token = jwt.sign(userInfo, config.jwtSecret);
+          res.json({ token, user: userInfo });
+        }else {
+          return next(Boom.notFound('User not found'));
+        }
+      })(req, res, next);
+    })
+    .catch(next);
 });
 
 module.exports = router;

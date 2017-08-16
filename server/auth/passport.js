@@ -11,9 +11,9 @@ module.exports = () => {
       id = id.id;
     }
     knex('users').where({id}).first()
-    .then((user) => {
-      done(null, user);
-    })
-    .catch(done);
+      .then((user) => {
+        done(null, user);
+      })
+      .catch(done);
   });
 };

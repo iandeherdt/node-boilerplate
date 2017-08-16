@@ -13,13 +13,13 @@ function createUser (req) {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
   return knex('users')
-  .insert({
-    username: req.body.username,
-    password: hash,
-    name: req.body.name,
-    email: req.body.email
-  })
-  .returning('*');
+    .insert({
+      username: req.body.username,
+      password: hash,
+      name: req.body.name,
+      email: req.body.email
+    })
+    .returning('*');
 }
 
 function validateToken(req, res, next) {
@@ -67,11 +67,9 @@ function resetPassword(req, res, next){
       } else if(req.body.password === req.body.confirmpassword){
         const salt = bcrypt.genSaltSync();
         const hash = bcrypt.hashSync(req.body.password, salt);
-        knex('users').where({email: email})
+        knex('users').where({id: user.id})
           .update('password', hash)
-          .then(() => {
-            res
-          })
+          .then(res.end);
       }
     });
 }
@@ -93,17 +91,16 @@ function forgotPassword(req, res, next){
         const resettoken = buffer.toString('hex');
         return knex('users').where({email: email})
           .update('resetid', resettoken)
-          .update('resetexpiration', moment().add(1, 'hour').format("YYYY-MM-DD HH:mm:ss"))
-          .then((result) => {
+          .update('resetexpiration', moment().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'))
+          .then(() => {
             return sendEmail({
               from:'ian.de.herdt@telenet.be',
               to:'ian.deherdt@gmail.com',
               subject:'Reset your password',
               html: `<span>follow this link to reset your password: http://localhost:4000/resetpassword?token=${resettoken}</span>`
-            }, next);
+            }, req, res, next);
           });
       });
-      
     })
     .catch(next);
 }

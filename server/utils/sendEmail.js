@@ -1,4 +1,4 @@
-  'use strict';
+'use strict';
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   host:  process.env.EMAILSERVER,
@@ -9,11 +9,12 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAILPASSWORD
   }
 });
-module.exports = function sendEmail(opts, next){
-  transporter.sendMail(opts, (error, info) => {
+module.exports = function sendEmail(opts, req, res, next){
+  transporter.sendMail(opts, (error) => {
     if (error) {
-        next(error);
+      next(error);
+    } else {
+      res.end();
     }
-    console.log('Message %s sent: %s', info.messageId, info.response);
   });
 };

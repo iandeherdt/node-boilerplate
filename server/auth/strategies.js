@@ -39,7 +39,7 @@ passport.use(new BearerStrategy((token, done) => {
           return done(null, user);
         }
       })
-    .catch(done);
+      .catch(done);
   });
 }));
 passport.use(new FacebookStrategy({
@@ -47,25 +47,24 @@ passport.use(new FacebookStrategy({
   clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: 'http://localhost:4000/auth/login/facebook/callback'
 },
-  function(accessToken, refreshToken, profile, done) {
-    knex('users').where({ facebookId: profile.id }).first()
-      .then((user) => {
-        if (!user){
-          const facebookUser = {
-            facebookId: profile.id,
-            name: profile.displayName,
-          };
-          knex('users').insert(facebookUser)
-            .then(function (id) {
-              const newUser = Object.assign({}, facebookUser, {id});
-              return done(null, newUser);
-            }).catch(done);
-        } else {
-          return done(null, user);
-        }
-      })
-    .catch(done);
-  }
+function(accessToken, refreshToken, profile, done) {
+  knex('users').where({ facebookId: profile.id }).first()
+    .then((user) => {
+      if (!user){
+        const facebookUser = {
+          facebookId: profile.id,
+          name: profile.displayName,
+        };
+        knex('users').insert(facebookUser)
+          .then(function (id) {
+            const newUser = Object.assign({}, facebookUser, {id});
+            return done(null, newUser);
+          }).catch(done);
+      } else {
+        return done(null, user);
+      }
+    }).catch(done);
+}
 ));
 
 

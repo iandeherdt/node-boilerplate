@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER } from '../constants';
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
+  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../constants';
 const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
@@ -31,6 +32,29 @@ const user = (state = INITIAL_STATE, action) => {
       isAuthenticating: false,
       isAuthenticated: false,
       user: undefined
+    });
+  case FORGOT_PASSWORD_REQUEST:
+    return fromJS({
+      isAuthenticating: false,
+      isAuthenticated: false,
+      user: undefined,
+      isSendingForgotPwLink: true
+    });
+  case FORGOT_PASSWORD_SUCCESS:
+    return fromJS({
+      isAuthenticating: false,
+      isAuthenticated: false,
+      user: undefined,
+      isSendingForgotPwLink: false,
+      sentPwLinkTo: action.data
+    });
+  case FORGOT_PASSWORD_FAILURE:
+    return fromJS({
+      isAuthenticating: false,
+      isAuthenticated: false,
+      user: undefined,
+      isSendingForgotPwLink: false,
+      sentPwLinkTo: undefined
     });
   default:
     return state;

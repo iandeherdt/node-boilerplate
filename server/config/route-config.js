@@ -4,6 +4,5 @@ module.exports = {
     const userRoutes = require('../routes/user');
     app.use('/auth', authRoutes);
     app.use('/user', userRoutes);
-    
   }
 };
