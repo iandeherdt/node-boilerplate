@@ -1,5 +1,6 @@
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
-  REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_SUCCESS } from '../constants';
+  REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_REQUEST } from '../constants';
 import api from '../api/user-api';
 
 export function login(username, password){
@@ -73,6 +74,9 @@ export function resetPassword(password, confirmPassword, token, history){
 
 export function forgotPassword(email){
   return dispatch => {
+    dispatch({
+      type: FORGOT_PASSWORD_REQUEST,
+    });
     return api.forgotPassword(email, (err) => {
       if(err){
         dispatch({

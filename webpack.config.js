@@ -33,12 +33,18 @@ module.exports = {
           {loader: 'css-loader'},
           {loader: 'resolve-url-loader'},
           {loader: 'sass-loader'}],
-          // use style-loader in development
+        // use style-loader in development
         fallback: 'style-loader'
       })
     },{
       test: /\.jpeg$/,
       loader: 'file-loader'
+    },
+    {
+      test: /\.css$/,
+      use: [
+        'css-loader'
+      ]
     }
     ]
   },
