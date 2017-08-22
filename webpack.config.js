@@ -12,6 +12,11 @@ module.exports = {
   entry: [
     path.join(__dirname, 'client/app.jsx')
   ],
+  resolve: {
+    alias: {
+      joi: 'joi-browser'
+    }
+  },
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name].js',
