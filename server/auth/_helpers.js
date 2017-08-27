@@ -9,17 +9,31 @@ function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
 
-function createUser (req) {
+function createUser (req, res, next) {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
-  return knex('users')
-    .insert({
-      username: req.body.username,
-      password: hash,
-      name: req.body.name,
-      email: req.body.email
-    })
-    .returning('*');
+  return knex('users').where({username: req.body.username}).first().then((user) => {
+    if (user){
+      return next(Boom.badRequest('Cannot insert duplicate user.'));
+    } else {
+      return knex('users')
+        .insert({
+          username: req.body.username,
+          password: hash,
+          name: req.body.name,
+          email: req.body.email,
+          firstname: req.body.firstname,
+          admin: req.body.admin,
+          street: req.body.street,
+          house: req.body.house,
+          bus: req.body.bus,
+          postal: req.body.postal,
+          city: req.body.city,
+          country: req.body.country,
+        })
+        .returning('*');
+    }
+  });
 }
 
 function validateToken(req, res, next) {

@@ -23,6 +23,85 @@ describe('routes : auth', () => {
     passportStub.logout();
     return knex.migrate.rollback();
   });
+  describe('POST /user', () => {
+    it('should register a new user', (done) => {
+      chai.request(server)
+        .post('/user')
+        .send({
+          username: 'michael@telenet.be',
+          password: 'herman',
+          name: 'tysmans',
+          firstname:'mike',
+          confirmPassword: 'herman',
+          admin: false,
+          street: 'street one',
+          house: '5',
+          bus: '',
+          postal: '2345',
+          city: 'Beringen',
+          country: 'Belgium',
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.eql(0);
+          res.status.should.eql(200);
+          res.type.should.eql('application/json');
+          const decoded = jwt.verify(res.body.token, config.jwtSecret);
+          decoded.username.should.eql('michael@telenet.be');
+          decoded.id.should.eql(4);
+          decoded.name.should.eql('tysmans');
+
+          const user = res.body.user;
+          user.username.should.eql('michael@telenet.be');
+          user.id.should.eql(4);
+          done();
+        });
+    });
+  });
+  describe('POST /user', () => {
+    it('should register a new user', (done) => {
+      chai.request(server)
+        .post('/user')
+        .send({
+          username: 'michael@telenet.be',
+          password: 'herman',
+          name: 'tysmans',
+          firstname:'mike',
+          confirmPassword: 'herman',
+          admin: false,
+          street: 'street one',
+          house: '5',
+          bus: '',
+          postal: '2345',
+          city: 'Beringen',
+          country: 'Belgium',
+        })
+        .end(() => {
+          chai.request(server)
+            .post('/user')
+            .send({
+              username: 'michael@telenet.be',
+              password: 'herman',
+              name: 'tysmans',
+              firstname:'mike',
+              confirmPassword: 'herman',
+              admin: false,
+              street: 'street one',
+              house: '5',
+              bus: '',
+              postal: '2345',
+              city: 'Beringen',
+              country: 'Belgium',
+            }).end((err, res) => {
+              should.exist(err);
+              res.redirects.length.should.eql(0);
+              res.status.should.eql(400);
+              res.type.should.eql('application/json');
+              done();
+            });
+        });
+    });
+  });
   describe('PUT /user', () => {
     it('should update a new user', (done) => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);

@@ -56,7 +56,7 @@ router.put('/:id', (req, res, done) => {
 });
 
 router.post('/', (req, res, next) => {
-  return authHelpers.createUser(req, res)
+  return authHelpers.createUser(req, res, next)
     .then(() => {
       passport.authenticate('local', (err, user) => {
         if (user) {
@@ -64,7 +64,7 @@ router.post('/', (req, res, next) => {
           const token = jwt.sign(userInfo, config.jwtSecret);
           res.json({ token, user: userInfo });
         }else {
-          return next(Boom.notFound('User not found'));
+          return next(Boom.notFound('Unable to save and retrieve user.'));
         }
       })(req, res, next);
     })
