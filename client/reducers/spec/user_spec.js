@@ -1,6 +1,8 @@
 import { assert } from 'chai';
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER,
-  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../../constants';
+  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
+  REGISTER_USER_REQUEST, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS,
+  REQUEST_STATUSSES } from '../../constants';
 import reducer from '../user';
 
 const initialState = {
@@ -70,5 +72,21 @@ describe('user reducer', () => {
     const successState = reducer(undefined, actionForgotPwSuccess);
     assert.equal(successState.get('isSendingForgotPwLink'), false);
     assert.equal(successState.get('sentPwLinkTo'), undefined);
+  });
+  it('handles REGISTER_USER_SUCCESS', () => {
+    const actionRequest = {type: REGISTER_USER_REQUEST };
+    const newState = reducer(undefined, actionRequest);
+    assert.equal(newState.get('registerUserStatus'), REQUEST_STATUSSES.REQUEST);
+    const actionRegisterSuccess = {type: REGISTER_USER_SUCCESS };
+    const successState = reducer(undefined, actionRegisterSuccess);
+    assert.equal(successState.get('registerUserStatus'), REQUEST_STATUSSES.SUCCESS);
+  });
+  it('handles REGISTER_USER_FAILURE', () => {
+    const actionRequest = {type: REGISTER_USER_REQUEST };
+    const newState = reducer(undefined, actionRequest);
+    assert.equal(newState.get('registerUserStatus'), REQUEST_STATUSSES.REQUEST);
+    const actionRegisterFailure = {type: REGISTER_USER_FAILURE };
+    const failureState = reducer(undefined, actionRegisterFailure);
+    assert.equal(failureState.get('registerUserStatus'), REQUEST_STATUSSES.FAILURE);
   });
 });

@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import Address from '../components/address.jsx';
 import { register, registerSocial } from '../actions/user';
 import validate from '../../validation/validateUser';
+import ContentSection from '../components/contentSection.jsx';
+import Loading from '../components/loading.jsx';
+import { REQUEST_STATUSSES } from '../constants';
 class RegisterUserContainer extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +70,21 @@ class RegisterUserContainer extends Component {
     return null;
   }
   render() {
+    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.REQUEST){
+      return <Loading title={t('isRegistering')}/>;
+    }
+    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.FAILURE){
+      return (<ContentSection>
+        <h2>{t('REGISTER USER FAILURE')}</h2>
+        <div>{t('We could not register your account please try aigan. If the problem persists contact your administrator.')}</div>
+      </ContentSection>);
+    }
+    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.SUCCESS){
+      return (<ContentSection>
+        <h2>{t('REGISTER USER SUCCESS')}</h2>
+        <div>{t('We have registered your account, but you still need to activate it.')}</div>
+      </ContentSection>);
+    }
     return (<div className="container">
       <form className="light-background padding-left-right-large padding-bottom-large" style={{maxWidth:'720px'}}>
         <div className="margin-left-right-small">

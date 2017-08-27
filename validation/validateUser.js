@@ -3,8 +3,14 @@ const schema = Joi.object().keys({
   username: Joi.string().email(),
   name: Joi.string().min(1).max(100).required(),
   firstname: Joi.string().min(1).max(100).required(),
-  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-  confirmPassword: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+  password: Joi.string().min(6).max(100).required(),
+  confirmPassword: Joi.string().required().valid(Joi.ref('password')).options({
+    language: {
+      any: {
+        allowOnly: 'Passwords and confirm password are not identical'
+      }
+    }
+  }),
   admin: Joi.boolean(),
   street: Joi.string(),
   house: Joi.string().min(1).max(5),

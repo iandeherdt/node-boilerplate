@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
-  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../constants';
+  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
+  REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, REQUEST_STATUSSES } from '../constants';
 const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
@@ -56,6 +57,15 @@ const user = (state = INITIAL_STATE, action) => {
       isSendingForgotPwLink: false,
       sentPwLinkTo: undefined
     });
+  case REGISTER_USER_REQUEST:
+    return state
+      .set('registerUserStatus', REQUEST_STATUSSES.REQUEST);
+  case REGISTER_USER_FAILURE:
+    return state
+      .set('registerUserStatus', REQUEST_STATUSSES.FAILURE);
+  case REGISTER_USER_SUCCESS:
+    return state
+      .set('registerUserStatus', REQUEST_STATUSSES.SUCCESS);
   default:
     return state;
   }

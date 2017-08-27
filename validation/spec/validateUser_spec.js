@@ -17,6 +17,7 @@ describe('validate user', () => {
     const validUser = {
       username: 'foobar@foo.be' ,
       password: 'blablabla',
+      confirmPassword: 'blablabla',
       name: 'foo',
       firstname: 'bar',
       admin: false
