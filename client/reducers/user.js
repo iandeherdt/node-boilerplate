@@ -35,28 +35,16 @@ const user = (state = INITIAL_STATE, action) => {
       user: undefined
     });
   case FORGOT_PASSWORD_REQUEST:
-    return fromJS({
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: undefined,
-      isSendingForgotPwLink: true
-    });
+    return state
+      .set('isSendingForgotPwLink', true);
   case FORGOT_PASSWORD_SUCCESS:
-    return fromJS({
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: undefined,
-      isSendingForgotPwLink: false,
-      sentPwLinkTo: action.data
-    });
+    return state
+      .set('isSendingForgotPwLink', false)
+      .set('sentPwLinkTo', action.data);
   case FORGOT_PASSWORD_FAILURE:
-    return fromJS({
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: undefined,
-      isSendingForgotPwLink: false,
-      sentPwLinkTo: undefined
-    });
+    return state
+      .set('isSendingForgotPwLink', false)
+      .set('sentPwLinkTo', undefined);
   case REGISTER_USER_REQUEST:
     return state
       .set('registerUserStatus', REQUEST_STATUSSES.REQUEST);

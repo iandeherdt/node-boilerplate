@@ -1,4 +1,6 @@
 $primary-brown: #795548;
+$primary-error: #cc0000;
+$primary-white: rgba(255, 255, 255, 0.8);
 body, html, #app {
   height: 100%;
   margin:0px;
@@ -120,10 +122,19 @@ body{
 
 .transparent{
   background-color: rgba(0, 0, 0, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  color: $primary-white
   h2{
-    color: rgba(255, 255, 255, 0.8);
+    color: $primary-white
   }
+}
+
+.error-bar{
+  background-color: $primary-error;
+  height: 50px;
+  color: $primary-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .centered-content{

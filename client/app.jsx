@@ -15,6 +15,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import MenuBar from './components/menuBar.jsx';
+import ErrorBar from './components/errorBar.jsx';
 import theme from './styles/material-theme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -34,6 +35,7 @@ const App = () => (
     <BrowserRouter history={history}>
       <div>
         <MenuBar />
+        <ErrorBar />
         <div className="container margin-top-large">
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>

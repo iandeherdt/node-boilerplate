@@ -40,7 +40,11 @@ const translations = {
   minLength:' has a minimum length of ',
   notEmail: ' is not a valid email',
   personalInfoTitle: 'Personal information',
-  isSendingForgotPwLink: 'Sending forgot password link.'
+  isSendingForgotPwLink: 'Sending forgot password link.',
+  forgotPasswordFailed: 'Failed to send you a reset password link.',
+  resetPasswordFailed: 'Failed to reset your password.',
+  loginFailed: 'Could not log you in.',
+  registerFailed: 'Registration could not be completed.',
 };
 
 module.exports = translations;

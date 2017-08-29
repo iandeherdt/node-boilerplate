@@ -73,12 +73,6 @@ class RegisterUserContainer extends Component {
     if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.REQUEST){
       return <Loading title={t('isRegistering')}/>;
     }
-    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.FAILURE){
-      return (<ContentSection>
-        <h2>{t('REGISTER USER FAILURE')}</h2>
-        <div>{t('We could not register your account please try aigan. If the problem persists contact your administrator.')}</div>
-      </ContentSection>);
-    }
     if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.SUCCESS){
       return (<ContentSection>
         <h2>{t('REGISTER USER SUCCESS')}</h2>
