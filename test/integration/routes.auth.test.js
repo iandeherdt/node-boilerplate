@@ -23,36 +23,6 @@ describe('routes : auth', () => {
     passportStub.logout();
     return knex.migrate.rollback();
   });
-  describe('POST /user', () => {
-    it('should register a new user', (done) => {
-      chai.request(server)
-        .post('/user')
-        .send({
-          username: 'michael',
-          password: 'herman',
-          name: 'mike',
-          email: 'mike@hotmail.com'
-        })
-        .end((err, res) => {
-          should.not.exist(err);
-          res.redirects.length.should.eql(0);
-          res.status.should.eql(200);
-          res.type.should.eql('application/json');
-          const decoded = jwt.verify(res.body.token, config.jwtSecret);
-          decoded.username.should.eql('michael');
-          decoded.id.should.eql(4);
-          decoded.name.should.eql('mike');
-          decoded.email.should.eql('mike@hotmail.com');
-
-          const user = res.body.user;
-          user.username.should.eql('michael');
-          user.id.should.eql(4);
-          user.name.should.eql('mike');
-          user.email.should.eql('mike@hotmail.com');
-          done();
-        });
-    });
-  });
   describe('POST /auth/login', () => {
     it('should login a user', (done) => {
       chai.request(server)
@@ -70,13 +40,11 @@ describe('routes : auth', () => {
           decoded.username.should.eql('jeremy');
           decoded.id.should.eql(1);
           decoded.name.should.eql('jerry');
-          decoded.email.should.eql('jerry@hotmail.com');
 
           const user = res.body.user;
           user.username.should.eql('jeremy');
           user.id.should.eql(1);
           user.name.should.eql('jerry');
-          user.email.should.eql('jerry@hotmail.com');
           done();
         });
     });

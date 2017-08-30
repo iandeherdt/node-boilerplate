@@ -2,26 +2,27 @@ const bcrypt = require('bcryptjs');
 const knex = require('../db/connection');
 const passport = require('passport');
 const Boom = require('boom');
-const sendEmail = require('../utils/sendEmail');
+const emailService = require('../utils/emailService');
 const crypto = require('crypto');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
 
-function createUser (req, res, next) {
+function createUser (req) {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
   return knex('users').where({username: req.body.username}).first().then((user) => {
     if (user){
-      return next(Boom.badRequest('Cannot insert duplicate user.'));
+      throw new Error('Cannot insert duplicate user.');
     } else {
       return knex('users')
         .insert({
           username: req.body.username,
           password: hash,
           name: req.body.name,
-          email: req.body.email,
           firstname: req.body.firstname,
           admin: req.body.admin,
           street: req.body.street,
@@ -107,11 +108,11 @@ function forgotPassword(req, res, next){
           .update('resetid', resettoken)
           .update('resetexpiration', moment().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'))
           .then(() => {
-            return sendEmail({
+            return emailService.send({
               from:'ian.de.herdt@telenet.be',
               to:'ian.deherdt@gmail.com',
               subject:'Reset your password',
-              html: `<span>follow this link to reset your password: http://localhost:4000/resetpassword?token=${resettoken}</span>`
+              html: `<span>follow this link to reset your password: ${config.serviceUrl}/resetpassword?token=${resettoken}</span>`
             }, req, res, next);
           });
       });
@@ -119,6 +120,20 @@ function forgotPassword(req, res, next){
     .catch(next);
 }
 
+function activateAccount(req, res, next){
+  const activationtoken = req.query.token;
+  if (!activationtoken) {
+    return next(Boom.badRequest('No activation token provided.'));
+  }
+  jwt.verify(activationtoken, config.jwtSecret, function(err, decoded) {
+    if(err){
+      return next(Boom.badRequest(err));
+    }
+    knex('users').where({username: decoded.username})
+      .update('registered', true)
+      .then(() => {res.redirect('/accountactivated');});
+  });
+}
 
 module.exports = {
   comparePass,
@@ -126,5 +141,6 @@ module.exports = {
   validateToken,
   adminRequired,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  activateAccount
 };

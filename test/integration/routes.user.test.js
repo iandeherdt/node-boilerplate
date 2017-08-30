@@ -9,10 +9,13 @@ chai.use(chaiHttp);
 
 const server = require('../../index');
 const knex = require('../../server/db/connection');
+const emailService = require('../../server/utils/emailService');
+const sinon = require('sinon');
+let emailSpy;
 
 passportStub.install(server);
 
-describe('routes : auth', () => {
+describe('routes : user', () => {
   beforeEach(() => {
     return knex.migrate.rollback()
       .then(() => { return knex.migrate.latest(); })
@@ -25,6 +28,7 @@ describe('routes : auth', () => {
   });
   describe('POST /user', () => {
     it('should register a new user', (done) => {
+      emailSpy = sinon.spy(emailService, 'send');
       chai.request(server)
         .post('/user')
         .send({
@@ -45,21 +49,15 @@ describe('routes : auth', () => {
           should.not.exist(err);
           res.redirects.length.should.eql(0);
           res.status.should.eql(200);
-          res.type.should.eql('application/json');
-          const decoded = jwt.verify(res.body.token, config.jwtSecret);
-          decoded.username.should.eql('michael@telenet.be');
-          decoded.id.should.eql(4);
-          decoded.name.should.eql('tysmans');
-
-          const user = res.body.user;
-          user.username.should.eql('michael@telenet.be');
-          user.id.should.eql(4);
+          res.type.should.eql('text/html');
+          res.text.should.eql('email sent');
+          sinon.assert.calledOnce(emailSpy);
           done();
         });
     });
   });
   describe('POST /user', () => {
-    it('should register a new user', (done) => {
+    it('should not register a duplicate user', (done) => {
       chai.request(server)
         .post('/user')
         .send({
@@ -95,7 +93,7 @@ describe('routes : auth', () => {
             }).end((err, res) => {
               should.exist(err);
               res.redirects.length.should.eql(0);
-              res.status.should.eql(400);
+              res.status.should.eql(500);
               res.type.should.eql('application/json');
               done();
             });
@@ -111,7 +109,6 @@ describe('routes : auth', () => {
         .send({
           firstname: 'Ian',
           name: 'De Herdt',
-          email: 'iandeherdt@foo.com'
         })
         .end((err, res) => {
           should.not.exist(err);
@@ -130,7 +127,6 @@ describe('routes : auth', () => {
               user.id.should.eql(3);
               user.name.should.eql('De Herdt');
               user.firstname.should.eql('Ian');
-              user.email.should.eql('iandeherdt@foo.com');
               done();
             });
         });

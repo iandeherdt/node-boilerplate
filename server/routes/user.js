@@ -4,11 +4,9 @@ const knex = require('../db/connection');
 const Boom = require('boom');
 const authHelpers = require('../auth/_helpers');
 const mapUser = require('../mappers/map-user');
-const passport = require('../auth/strategies');
-const createTokenInfo = require('../utils/createTokenInfo');
-const jwt = require('jsonwebtoken');
+const emailService = require('../utils/emailService');
 const config = require('../config/config');
-
+const jwt = require('jsonwebtoken');
 router.get('/admin', authHelpers.validateToken, authHelpers.adminRequired, (req, res) => {
   res.json({status: 'success'});
 });
@@ -58,15 +56,13 @@ router.put('/:id', (req, res, done) => {
 router.post('/', (req, res, next) => {
   return authHelpers.createUser(req, res, next)
     .then(() => {
-      passport.authenticate('local', (err, user) => {
-        if (user) {
-          const userInfo = createTokenInfo(user);
-          const token = jwt.sign(userInfo, config.jwtSecret);
-          res.json({ token, user: userInfo });
-        }else {
-          return next(Boom.notFound('Unable to save and retrieve user.'));
-        }
-      })(req, res, next);
+      const token = jwt.sign({username: req.body.username}, config.jwtSecret, { expiresIn: '12h' });
+      return emailService.send({
+        from:'ian.de.herdt@telenet.be',
+        to: req.body.username,
+        subject:'Activate your account',
+        html: `<span>follow this link to activate your account: ${config.serviceUrl}/activateaccount?token=${token}</span>`
+      }, req, res, next);
     })
     .catch(next);
 });

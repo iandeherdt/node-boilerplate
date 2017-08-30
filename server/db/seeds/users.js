@@ -10,7 +10,6 @@ exports.seed = (knex, Promise) => {
           username: 'jeremy',
           password: hash,
           name: 'jerry',
-          email: 'jerry@hotmail.com'
         })
       );
     })
@@ -23,7 +22,6 @@ exports.seed = (knex, Promise) => {
           password: hash,
           admin: true,
           name: 'kel',
-          email: 'kel@hotmail.com'
         })
       );
     })

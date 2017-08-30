@@ -8,17 +8,17 @@ const init = require('./passport');
 const knex = require('../db/connection');
 const jwt = require('jsonwebtoken');
 const options = {};
-
+const Boom = require('Boom');
 init();
 
 passport.use(new LocalStrategy(options, (username, password, done) => {
   knex('users').where({ username }).first()
     .then((user) => {
       if (!user){
-        return done(null, false);
+        return done(Boom.notFound('User not found'), false);
       }
       if (!authHelpers.comparePass(password, user.password)) {
-        return done(null, false);
+        return done(Boom.badRequest('Incorrect password'), false);
       } else {
         return done(null, user);
       }
@@ -45,7 +45,7 @@ passport.use(new BearerStrategy((token, done) => {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: 'http://localhost:4000/auth/login/facebook/callback'
+  callbackURL: `${config.serviceUrl}/auth/login/facebook/callback`
 },
 function(accessToken, refreshToken, profile, done) {
   knex('users').where({ facebookId: profile.id }).first()
