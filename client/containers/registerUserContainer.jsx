@@ -74,12 +74,12 @@ class RegisterUserContainer extends Component {
       return <Loading title={t('isRegistering')}/>;
     }
     if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.SUCCESS){
-      return (<ContentSection>
+      return (<ContentSection className="margin-top-large">
         <h2>{t('REGISTER USER SUCCESS')}</h2>
         <div>{t('We have registered your account, but you still need to activate it.')}</div>
       </ContentSection>);
     }
-    return (<div className="container">
+    return (<div className="container margin-top-large">
       <form className="light-background padding-left-right-large padding-bottom-large" style={{maxWidth:'720px'}}>
         <div className="margin-left-right-small">
           <h2 className="inlineH2">{t('personalInfoTitle')}</h2>

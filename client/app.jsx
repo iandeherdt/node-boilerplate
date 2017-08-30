@@ -37,7 +37,7 @@ const App = () => (
       <div>
         <MenuBar />
         <ErrorBar />
-        <div className="container margin-top-large">
+        <div className="container">
           <Route exact path="/" component={HomeContainer} />
           <Route path="/login" component={LoginContainer}/>
           <Route path="/register" store={store} component={RegisterUserContainer}/>

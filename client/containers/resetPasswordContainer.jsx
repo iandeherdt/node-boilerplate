@@ -26,7 +26,7 @@ class ResetPasswordContainer extends Component {
     this.setState(currentState);
   }
   render() {
-    return (<div className="container">
+    return (<div className="container margin-top-large">
       <div className="light-background padding-large">
         <div>
           <TextField

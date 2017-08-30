@@ -24,7 +24,7 @@ class ResetPasswordContainer extends Component {
     this.setState(currentState);
   }
   render() {
-    const forgotPasswordContent = (<div className="light-background padding-large">
+    const forgotPasswordContent = (<div className="light-background padding-large margin-top-large">
       <div>
         <TextField
           id="usr-forgotpw-email"
@@ -38,7 +38,7 @@ class ResetPasswordContainer extends Component {
         <FlatButton onClick={this.onConfirm} label={t('confirm')} primary/>
       </div>
     </div>);
-    const forgotPasswordSuccessContent = (<ContentSection>
+    const forgotPasswordSuccessContent = (<ContentSection className="margin-top-large">
       <h2>{t('RESET PASSWORD')}</h2>
       <div>{t('We have sent a reset link please check you email for further instructions.')}</div>
     </ContentSection>);
