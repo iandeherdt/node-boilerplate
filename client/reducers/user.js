@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
   FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
-  REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, REQUEST_STATUSSES } from '../constants';
+  REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, REQUEST_STATUSSES,
+  ACTIVATE_ACCOUNT_REQUEST, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS } from '../constants';
 const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
@@ -54,6 +55,15 @@ const user = (state = INITIAL_STATE, action) => {
   case REGISTER_USER_SUCCESS:
     return state
       .set('registerUserStatus', REQUEST_STATUSSES.SUCCESS);
+  case ACTIVATE_ACCOUNT_REQUEST:
+    return state
+      .set('activateUserStatus', REQUEST_STATUSSES.REQUEST);
+  case ACTIVATE_ACCOUNT_FAILURE:
+    return state
+      .set('activateUserStatus', REQUEST_STATUSSES.FAILURE);
+  case ACTIVATE_ACCOUNT_SUCCESS:
+    return state
+      .set('activateUserStatus', REQUEST_STATUSSES.SUCCESS);
   default:
     return state;
   }

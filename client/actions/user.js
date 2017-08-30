@@ -1,7 +1,11 @@
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER,
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER, ACTIVATE_ACCOUNT_REQUEST,
   REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_FAILURE } from '../constants';
+  FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_FAILURE, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS } from '../constants';
 import api from '../api/user-api';
+
+function checkErrorReponse(err){
+  return err && err.response.body && err.response.body && err.response.body.message;
+}
 
 export function login(username, password){
   return dispatch => {
@@ -12,7 +16,7 @@ export function login(username, password){
       if(err){
         dispatch({
           type: LOGIN_USER_FAILURE,
-          data: err.response.body.message
+          data: checkErrorReponse(err) ? err.response.body.message : t('loginFailed')
         });
       } else if(res.body.user && res.body.token){
         dispatch({
@@ -55,7 +59,7 @@ export function register(user){
       if(err){
         dispatch({
           type: REGISTER_USER_FAILURE,
-          data:  t('registerFailed')
+          data: checkErrorReponse(err) ? err.response.body.message : t('registerFailed')
         });
       } else if(res.body){
         dispatch({
@@ -73,7 +77,7 @@ export function resetPassword(password, confirmPassword, token, history){
       if(err){
         dispatch({
           type: RESET_PASSWORD_FAILURE,
-          data: err.response.body.message
+          data: checkErrorReponse(err) ? err.response.body.message : t('resetPasswordFailed')
         });
       } else {
         history.push('login');
@@ -91,12 +95,32 @@ export function forgotPassword(email){
       if(err){
         dispatch({
           type: FORGOT_PASSWORD_FAILURE,
-          data: err.response.body.message,
+          data: checkErrorReponse(err) ? err.response.body.message : t('forgotPasswordFailed')
         });
       } else {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
           data: email,
+        });
+      }
+    });
+  };
+}
+
+export function activateAccount(token){
+  return dispatch => {
+    dispatch({
+      type: ACTIVATE_ACCOUNT_REQUEST,
+    });
+    return api.activateAccount(token, (err) => {
+      if(err){
+        dispatch({
+          type: ACTIVATE_ACCOUNT_FAILURE,
+          data: checkErrorReponse(err) ? err.response.body.message : t('activateAccountFailed')
+        });
+      } else {
+        dispatch({
+          type: ACTIVATE_ACCOUNT_SUCCESS,
         });
       }
     });

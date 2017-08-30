@@ -12,6 +12,7 @@ const schema = Joi.object().keys({
     }
   }),
   admin: Joi.boolean(),
+  addressName: Joi.string(),
   street: Joi.string(),
   house: Joi.string().min(1).max(5),
   bus: Joi.string().max(10),

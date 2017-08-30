@@ -2,6 +2,7 @@ const serverUrl = 'http://localhost:4000';
 const loginRoute = '/auth/login';
 const resetPasswordRoute = '/auth/password/reset';
 const forgotPasswordRoute = '/auth/password/forgot';
+const activateAccountRoute = '/auth/account/activate';
 const userRoute = '/user';
 import request from 'superagent';
 
@@ -44,6 +45,11 @@ module.exports = {
     request.post(url)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send({email})
+      .end(callback);
+  },
+  activateAccount(token, callback){
+    const url = `${serverUrl}${activateAccountRoute}?token=${token}`;
+    request.put(url)
       .end(callback);
   }
 };

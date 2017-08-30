@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER,
   FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS,
+  ACTIVATE_ACCOUNT_REQUEST, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS,
   REQUEST_STATUSSES } from '../../constants';
 import reducer from '../user';
 
@@ -88,5 +89,21 @@ describe('user reducer', () => {
     const actionRegisterFailure = {type: REGISTER_USER_FAILURE };
     const failureState = reducer(undefined, actionRegisterFailure);
     assert.equal(failureState.get('registerUserStatus'), REQUEST_STATUSSES.FAILURE);
+  });
+  it('handles ACTIVATE_ACCOUNT_REQUEST', () => {
+    const actionRequest = {type: ACTIVATE_ACCOUNT_REQUEST };
+    const newState = reducer(undefined, actionRequest);
+    assert.equal(newState.get('activateUserStatus'), REQUEST_STATUSSES.REQUEST);
+    const successAction = {type: ACTIVATE_ACCOUNT_SUCCESS };
+    const successState = reducer(undefined, successAction);
+    assert.equal(successState.get('activateUserStatus'), REQUEST_STATUSSES.SUCCESS);
+  });
+  it('handles ACTIVATE_ACCOUNT_FAILURE', () => {
+    const actionRequest = {type: ACTIVATE_ACCOUNT_REQUEST };
+    const newState = reducer(undefined, actionRequest);
+    assert.equal(newState.get('activateUserStatus'), REQUEST_STATUSSES.REQUEST);
+    const actionFailure = {type: ACTIVATE_ACCOUNT_FAILURE };
+    const failureState = reducer(undefined, actionFailure);
+    assert.equal(failureState.get('activateUserStatus'), REQUEST_STATUSSES.FAILURE);
   });
 });

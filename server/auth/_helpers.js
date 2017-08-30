@@ -131,7 +131,7 @@ function activateAccount(req, res, next){
     }
     knex('users').where({username: decoded.username})
       .update('registered', true)
-      .then(() => {res.redirect('/accountactivated');});
+      .then(() => {res.send('account activated');});
   });
 }
 

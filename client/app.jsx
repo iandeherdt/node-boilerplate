@@ -9,6 +9,7 @@ import OrderContainer from './containers/orderContainer.jsx';
 import RegisterUserContainer from './containers/registerUserContainer.jsx';
 import ResetPasswordContainer from './containers/resetPasswordContainer.jsx';
 import ForgotPasswordContainer from './containers/forgotPasswordContainer.jsx';
+import ActivateAccountContainer from './containers/activateAccountContainer.jsx';
 import PrivateRoute from './components/privateRoute.jsx';
 import AuthComplete from './components/authComplete.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/register" store={store} component={RegisterUserContainer}/>
           <Route path="/resetpassword" store={store} component={ResetPasswordContainer}/>
           <Route path="/forgotpassword" store={store} component={ForgotPasswordContainer}/>
+          <Route path="/activateaccount" store={store} component={ActivateAccountContainer}/>
           <PrivateRoute path="/order" store={store} component={OrderContainer}/>
           <AuthComplete path="/authComplete" />
         </div>

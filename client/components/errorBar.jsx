@@ -17,7 +17,7 @@ class ErrorBar extends Component {
     }
     return (
       <div className="full-width error-bar" onClick={this.onDismissClick}>
-        {error.getIn([0, 'message'])}
+        {error.getIn([error.size - 1, 'message'])}
       </div>
     );
   }

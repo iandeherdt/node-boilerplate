@@ -43,8 +43,11 @@ const translations = {
   isSendingForgotPwLink: 'Sending forgot password link.',
   forgotPasswordFailed: 'Failed to send you a reset password link.',
   resetPasswordFailed: 'Failed to reset your password.',
+  activateAccountFailed: 'Failed to activate your account',
   loginFailed: 'Could not log you in.',
   registerFailed: 'Registration could not be completed.',
+  isActivatingAccount: 'Activating account',
+  activateAccountSuccessMessage: 'Your account has been successfully activated. Please log in.',
 };
 
 module.exports = translations;
