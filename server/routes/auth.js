@@ -6,6 +6,7 @@ const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
 const Boom = require('Boom');
 const createTokenInfo = require('../utils/createTokenInfo');
+
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
     if (err) {
@@ -20,11 +21,6 @@ router.post('/login', (req, res, next) => {
       return res.json({ token, user: userInfo });
     }
   })(req, res, next);
-});
-
-router.get('/logout', authHelpers.validateToken, (req, res, next) => {//eslint-disable-line
-  req.logout();
-  return res.json({status: 'success'});
 });
 
 router.get('/login/facebook', passport.authenticate('facebook'));

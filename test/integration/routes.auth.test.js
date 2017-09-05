@@ -92,40 +92,6 @@ describe('routes : auth', () => {
         });
     });
   });
-  describe('GET /auth/logout', () => {
-    it('should logout a user', (done) => {
-      passportStub.login({
-        username: 'jeremy',
-        password: 'johnson123'
-      });
-      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
-      chai.request(server)
-        .get('/auth/logout')
-        .set('Authorization', 'Bearer ' + token)
-        .end((err, res) => {
-          should.not.exist(err);
-          res.redirects.length.should.eql(0);
-          res.status.should.eql(200);
-          res.type.should.eql('application/json');
-          res.body.status.should.eql('success');
-          done();
-        });
-    });
-    it('should throw an error if a user is not logged in', (done) => {
-      chai.request(server)
-        .get('/auth/logout')
-        .end((err, res) => {
-          should.exist(err);
-          res.redirects.length.should.eql(0);
-          res.status.should.eql(401);
-          res.type.should.eql('application/json');
-          res.body.statusCode.should.eql(401);
-          res.body.error.should.eql('Unauthorized');
-          res.body.message.should.eql('Please log in.');
-          done();
-        });
-    });
-  });
   describe('GET /user', () => {
     it('should return a success', (done) => {
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
