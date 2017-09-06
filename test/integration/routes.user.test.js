@@ -1,8 +1,7 @@
 process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const passportStub = require('passport-stub');
+const chaiHttp = require('chai-http'); 
 const jwt = require('jsonwebtoken');
 const config = require('../../server/config/config');
 chai.use(chaiHttp);
@@ -13,8 +12,6 @@ const emailService = require('../../server/utils/emailService');
 const sinon = require('sinon');
 let emailSpy;
 
-passportStub.install(server);
-
 describe('routes : user', () => {
   beforeEach(() => {
     return knex.migrate.rollback()
@@ -23,7 +20,6 @@ describe('routes : user', () => {
   });
 
   afterEach(() => {
-    passportStub.logout();
     return knex.migrate.rollback();
   });
   describe('POST /user', () => {
@@ -53,50 +49,6 @@ describe('routes : user', () => {
           res.text.should.eql('email sent');
           sinon.assert.calledOnce(emailSpy);
           done();
-        });
-    });
-  });
-  describe('POST /user', () => {
-    it('should not register a duplicate user', (done) => {
-      chai.request(server)
-        .post('/user')
-        .send({
-          username: 'michael@telenet.be',
-          password: 'herman',
-          name: 'tysmans',
-          firstname:'mike',
-          confirmPassword: 'herman',
-          admin: false,
-          street: 'street one',
-          house: '5',
-          bus: '',
-          postal: '2345',
-          city: 'Beringen',
-          country: 'Belgium',
-        })
-        .end(() => {
-          chai.request(server)
-            .post('/user')
-            .send({
-              username: 'michael@telenet.be',
-              password: 'herman',
-              name: 'tysmans',
-              firstname:'mike',
-              confirmPassword: 'herman',
-              admin: false,
-              street: 'street one',
-              house: '5',
-              bus: '',
-              postal: '2345',
-              city: 'Beringen',
-              country: 'Belgium',
-            }).end((err, res) => {
-              should.exist(err);
-              res.redirects.length.should.eql(0);
-              res.status.should.eql(500);
-              res.type.should.eql('application/json');
-              done();
-            });
         });
     });
   });
