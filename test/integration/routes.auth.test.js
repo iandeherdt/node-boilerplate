@@ -4,13 +4,9 @@ const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const config = require('../../server/config/config');
-const passportStub = require('passport-stub');
 chai.use(chaiHttp);
-
 const server = require('../../index');
 const knex = require('../../server/db/connection');
-
-passportStub.install(server);
 
 describe('routes : auth', () => {
   beforeEach(() => {
@@ -20,7 +16,6 @@ describe('routes : auth', () => {
   });
 
   afterEach(() => {
-    passportStub.logout();
     return knex.migrate.rollback();
   });
   describe('POST /auth/login', () => {

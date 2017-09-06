@@ -7,7 +7,7 @@ function checkErrorReponse(err){
   return err && err.response.body && err.response.body && err.response.body.message;
 }
 
-export function login(username, password){
+export function login(username, password, history){
   return dispatch => {
     dispatch({
       type: LOGIN_USER_REQUEST
@@ -24,6 +24,7 @@ export function login(username, password){
           data: res.body.user,
         });
         sessionStorage.setItem('token', res.body.token);
+        history.push('');
       } else {
         dispatch({
           type: LOGIN_USER_FAILURE,

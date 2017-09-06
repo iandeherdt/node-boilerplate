@@ -21,7 +21,7 @@ class LoginContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   onLogin(){
-    this.props.dispatch(login(this.state.user.username, this.state.user.password));
+    this.props.dispatch(login(this.state.user.username, this.state.user.password, this.props.history));
   }
   onFacebookLogin(){
     window.location.href = '/auth/login/facebook';
@@ -80,6 +80,7 @@ function mapStateToProps(state) {
 LoginContainer.propTypes = {
   user: PropTypes.object,
   dispatch: PropTypes.func,
+  history: PropTypes.object
 };
 
 export default connect(
