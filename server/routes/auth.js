@@ -4,7 +4,7 @@ const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
-const Boom = require('Boom');
+const Boom = require('boom');
 const createTokenInfo = require('../utils/createTokenInfo');
 
 router.post('/login', (req, res, next) => {

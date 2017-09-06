@@ -8,7 +8,7 @@ const init = require('./passport');
 const knex = require('../db/connection');
 const jwt = require('jsonwebtoken');
 const options = {};
-const Boom = require('Boom');
+const Boom = require('boom');
 init();
 
 passport.use(new LocalStrategy(options, (username, password, done) => {
