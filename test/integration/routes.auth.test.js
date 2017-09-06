@@ -119,10 +119,6 @@ describe('routes : auth', () => {
   });
   describe('GET /user/admin', () => {
     it('should return a success', (done) => {
-      passportStub.login({
-        username: 'kelly',
-        password: 'bryant123'
-      });
       const token = jwt.sign({id: '1', username: 'kelly', name: 'kelly', email:'kelly@hotmail.com' }, config.jwtSecret);
       chai.request(server)
         .get('/user/admin')
@@ -151,10 +147,6 @@ describe('routes : auth', () => {
         });
     });
     it('should throw an error if a user is not an admin', (done) => {
-      passportStub.login({
-        username: 'jeremy',
-        password: 'johnson123'
-      });
       const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
       chai.request(server)
         .get('/user/admin')
