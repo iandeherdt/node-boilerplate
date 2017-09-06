@@ -6,8 +6,8 @@ module.exports = {
     connection: `postgres://postgres:postgres@localhost:5432/${databaseName}`,
     debug: false,
     pool: {
-        min: 1,
-        max: 2 
+      min: 1,
+      max: 2
     },
     migrations: {
       directory: __dirname + '/server/db/migrations'
@@ -25,5 +25,20 @@ module.exports = {
     seeds: {
       directory: __dirname + '/server/db/seeds'
     }
-  }
+  },
+  production : {
+    client: 'pg',
+    connection: `postgres://postgres:postgres@localhost:5432/${databaseName}`,
+    debug: false,
+    pool: {
+      min: 1,
+      max: 2
+    },
+    migrations: {
+      directory: __dirname + '/server/db/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/server/db/seeds'
+    }
+  },
 };
