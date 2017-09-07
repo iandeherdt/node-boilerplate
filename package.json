@@ -10,9 +10,10 @@
     ]
   },
   "scripts": {
+    "preinstall": "npm install -dev",
     "start": "node index.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js  --recursive",
-    "postinstall": "webpack -p"
+    "postinstall": "npm install -dev && webpack -p"
   },
   "repository": {
     "type": "git",
@@ -72,7 +73,6 @@
     "superagent": "^3.5.2",
     "uuid": "^3.1.0",
     "validator": "^7.0.0",
-    "webpack": "^2.5.1",
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
@@ -100,6 +100,7 @@
     "resolve-url-loader": "^2.0.2",
     "sass-loader": "^6.0.3",
     "sinon": "^3.2.1",
-    "style-loader": "^0.17.0"
+    "style-loader": "^0.17.0",
+    "webpack": "^2.5.1"
   }
 }
