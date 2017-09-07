@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSass = new ExtractTextPlugin({
@@ -44,14 +43,7 @@ module.exports = {
     },{
       test: /\.jpeg$/,
       loader: 'file-loader'
-    },
-    {
-      test: /\.css$/,
-      use: [
-        'css-loader'
-      ]
-    }
-    ]
+    }]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -59,7 +51,6 @@ module.exports = {
       inject: 'body',
       filename: 'index.html'
     }),
-    new webpack.HotModuleReplacementPlugin(),
     extractSass
   ]
 };
