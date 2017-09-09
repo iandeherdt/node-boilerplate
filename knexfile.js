@@ -3,7 +3,7 @@ const databaseName = 'node-security';
 module.exports = {
   development: {
     client: 'pg',
-    connection: `postgres://postgres:postgres@localhost:5432/${databaseName}`,
+    connection: `${process.env.CONNECTIONSTRING}/${databaseName}`,
     debug: false,
     pool: {
       min: 1,
@@ -18,7 +18,7 @@ module.exports = {
   },
   test: {
     client: 'pg',
-    connection: `postgres://postgres:postgres@localhost:5432/${databaseName}_test`,
+    connection: `${process.env.CONNECTIONSTRING}/${databaseName}_test`,
     migrations: {
       directory: __dirname + '/server/db/migrations'
     },
@@ -28,7 +28,7 @@ module.exports = {
   },
   production : {
     client: 'pg',
-    connection: `postgres://postgres:postgres@localhost:5432/${databaseName}`,
+    connection: `${process.env.CONNECTIONSTRING}/${databaseName}`,
     debug: false,
     pool: {
       min: 1,
