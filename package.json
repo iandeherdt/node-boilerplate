@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js  --recursive",
-    "postinstall": "webpack -p"
+    "postinstall": "webpack -p && knex migrate:latest"
   },
   "repository": {
     "type": "git",
