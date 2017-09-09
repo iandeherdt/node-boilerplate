@@ -1,6 +1,7 @@
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER, ACTIVATE_ACCOUNT_REQUEST,
   REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_FAILURE, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS } from '../constants';
+  FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_FAILURE, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS,
+  REGISTER_USER_REQUEST } from '../constants';
 import api from '../api/user-api';
 
 function checkErrorReponse(err){
@@ -56,6 +57,9 @@ export function logout(){
 
 export function register(user){
   return dispatch => {
+    dispatch({
+      type: REGISTER_USER_REQUEST,
+    });
     return api.register(user, (err, res) => {
       if(err){
         dispatch({
