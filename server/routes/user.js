@@ -5,7 +5,6 @@ const Boom = require('boom');
 const authHelpers = require('../auth/_helpers');
 const mapUser = require('../mappers/map-user');
 const emailService = require('../utils/emailService');
-const config = require('../config/config');
 const jwt = require('jsonwebtoken');
 router.get('/admin', authHelpers.validateToken, authHelpers.adminRequired, (req, res) => {
   res.json({status: 'success'});
@@ -56,12 +55,12 @@ router.put('/:id', (req, res, done) => {
 router.post('/', (req, res, next) => {
   return authHelpers.createUser(req, res, next)
     .then(() => {
-      const token = jwt.sign({username: req.body.username}, config.jwtSecret, { expiresIn: '12h' });
+      const token = jwt.sign({username: req.body.username}, process.env.JWT_SECRET, { expiresIn: '12h' });
       return emailService.send({
         from:'ian.de.herdt@telenet.be',
         to: req.body.username,
         subject:'Activate your account',
-        html: `<span>follow this link to activate your account: ${config.serviceUrl}/activateaccount?token=${token}</span>`
+        html: `<span>follow this link to activate your account: ${process.env.SERVICE_URL}/activateaccount?token=${token}</span>`
       }, req, res, next);
     })
     .catch(next);

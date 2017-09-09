@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const config = require('../config/config');
 const authHelpers = require('../auth/_helpers');
 const passport = require('../auth/strategies');
 const jwt = require('jsonwebtoken');
@@ -17,7 +16,7 @@ router.post('/login', (req, res, next) => {
     }
     if (user) {
       const userInfo = createTokenInfo(user);
-      const token = jwt.sign(userInfo, config.jwtSecret, { expiresIn: '12h' });
+      const token = jwt.sign(userInfo, process.env.JWT_SECRET, { expiresIn: '12h' });
       return res.json({ token, user: userInfo });
     }
   })(req, res, next);
@@ -29,7 +28,7 @@ router.get('/login/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
     const userInfo = createTokenInfo(req.user);
-    const token = jwt.sign(userInfo, config.jwtSecret, { expiresIn: '12h' });
+    const token = jwt.sign(userInfo, process.env.JWT_SECRET, { expiresIn: '12h' });
     // Successful authentication, redirect to success page to pass token.
     res.redirect(`/authComplete?token=${token}&id=${req.user.id}&user=${req.user.name}&registered=${!!req.user.registered}`);
   }

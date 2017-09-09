@@ -3,7 +3,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const authHelpers = require('./_helpers');
-const config = require('../config/config');
 const init = require('./passport');
 const knex = require('../db/connection');
 const jwt = require('jsonwebtoken');
@@ -27,7 +26,7 @@ passport.use(new LocalStrategy(options, (username, password, done) => {
 }));
 
 passport.use(new BearerStrategy((token, done) => {
-  jwt.verify(token, config.jwtSecret, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return done(err);
     }
@@ -45,7 +44,7 @@ passport.use(new BearerStrategy((token, done) => {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: `${config.serviceUrl}/auth/login/facebook/callback`
+  callbackURL: `${process.env.SERVICE_URL}/auth/login/facebook/callback`
 },
 function(accessToken, refreshToken, profile, done) {
   knex('users').where({ facebookId: profile.id }).first()

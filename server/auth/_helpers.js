@@ -6,7 +6,6 @@ const emailService = require('../utils/emailService');
 const crypto = require('crypto');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
 function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
@@ -112,7 +111,7 @@ function forgotPassword(req, res, next){
               from:'ian.de.herdt@telenet.be',
               to:'ian.deherdt@gmail.com',
               subject:'Reset your password',
-              html: `<span>follow this link to reset your password: ${config.serviceUrl}/resetpassword?token=${resettoken}</span>`
+              html: `<span>follow this link to reset your password: ${process.env.SERVICE_URL}/resetpassword?token=${resettoken}</span>`
             }, req, res, next);
           });
       });
@@ -125,7 +124,7 @@ function activateAccount(req, res, next){
   if (!activationtoken) {
     return next(Boom.badRequest('No activation token provided.'));
   }
-  jwt.verify(activationtoken, config.jwtSecret, function(err, decoded) {
+  jwt.verify(activationtoken, process.env.JWT_SECRET, function(err, decoded) {
     if(err){
       return next(Boom.badRequest(err));
     }
