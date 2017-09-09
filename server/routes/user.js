@@ -61,7 +61,7 @@ router.post('/', (req, res, next) => {
         from:'ian.de.herdt@telenet.be',
         to: req.body.username,
         subject:'Activate your account',
-        html: `<span>follow this link to activate your account: ${process.env.SERVICE_URL}activateaccount?token=${token}</span>`
+        html: `<span>follow this link to activate your account: ${process.env.SERVICE_URL}/activateaccount?token=${token}</span>`
       }, req, res, next);
     })
     .catch(next);
