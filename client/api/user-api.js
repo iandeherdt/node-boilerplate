@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:4000';
+
 const loginRoute = '/auth/login';
 const resetPasswordRoute = '/auth/password/reset';
 const forgotPasswordRoute = '/auth/password/forgot';
@@ -8,47 +8,43 @@ import request from 'superagent';
 
 module.exports = {
   login(username, password, callback){
-    const url = serverUrl + loginRoute;
-    request.post(url)
+    request.post(loginRoute)
       .send({username: username, password: password})
       .end(callback);
   },
   getUser(callback){
-    const url = serverUrl + userRoute;
-    request.get(url)
+    request.get(userRoute)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .end(callback);
   },
   registerSocial(user, callback){
-    const url = `${serverUrl}${userRoute}/${user.id}`;
+    const url = `${userRoute}/${user.id}`;
     request.put(url)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send(user)
       .end(callback);
   },
   register(user, callback){
-    const url = `${serverUrl}${userRoute}`;
-    request.post(url)
+    request.post(userRoute)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send(user)
       .end(callback);
   },
   resetPassword(password, confirmpassword, token, callback){
-    const url = `${serverUrl}${resetPasswordRoute}?token=${token}`;
+    const url = `${resetPasswordRoute}?token=${token}`;
     request.put(url)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send({password, confirmpassword})
       .end(callback);
   },
   forgotPassword(email, callback){
-    const url = `${serverUrl}${forgotPasswordRoute}`;
-    request.post(url)
+    request.post(forgotPasswordRoute)
       .set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       .send({email})
       .end(callback);
   },
   activateAccount(token, callback){
-    const url = `${serverUrl}${activateAccountRoute}?token=${token}`;
+    const url = `${activateAccountRoute}?token=${token}`;
     request.put(url)
       .end(callback);
   }
