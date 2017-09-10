@@ -2,7 +2,7 @@ import {
   brown500, brown700,
   pinkA200,
   grey100, grey300, grey400, grey500,
-  white, darkBlack, fullBlack,
+  white, fullBlack,
 } from 'material-ui/styles/colors';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     accent1Color: pinkA200,
     accent2Color: grey100,
     accent3Color: grey500,
-    textColor: darkBlack,
+    textColor: brown700,
     alternateTextColor: white,
     canvasColor: white,
     borderColor: grey300,

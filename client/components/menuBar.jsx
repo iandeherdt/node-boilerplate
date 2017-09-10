@@ -7,11 +7,12 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import { brown500 } from 'material-ui/styles/colors';
 const Authenticated = (props) => {
   return (<IconMenu
     {...props}
     iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
+      <IconButton><MoreVertIcon color={brown500}/></IconButton>
     }
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
