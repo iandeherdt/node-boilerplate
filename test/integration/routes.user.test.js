@@ -1,9 +1,8 @@
 process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const should = chai.should();
-const chaiHttp = require('chai-http'); 
+const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
-const config = require('../../server/config/config');
 chai.use(chaiHttp);
 
 const server = require('../../index');
@@ -45,8 +44,8 @@ describe('routes : user', () => {
           should.not.exist(err);
           res.redirects.length.should.eql(0);
           res.status.should.eql(200);
-          res.type.should.eql('text/html');
-          res.text.should.eql('email sent');
+          res.type.should.eql('application/json');
+          res.body.should.eql({'message': 'email sent'});
           sinon.assert.calledOnce(emailSpy);
           done();
         });
@@ -54,7 +53,7 @@ describe('routes : user', () => {
   });
   describe('PUT /user', () => {
     it('should update a new user', (done) => {
-      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
+      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, process.env.JWT_SECRET);
       chai.request(server)
         .put('/user/3')
         .set('Authorization', 'Bearer ' + token)

@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import ContentSection from '../components/contentSection.jsx';
 import Loading from '../components/loading.jsx';
 import { REQUEST_STATUSSES } from '../constants';
+
 class ActivateAccountContainer extends Component {
   constructor(props) {
     super(props);

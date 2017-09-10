@@ -15,7 +15,7 @@ module.exports = {
       if (error) {
         next(error);
       } else {
-        res.send('email sent');
+        res.json({message: 'email sent'});
       }
     });
   }

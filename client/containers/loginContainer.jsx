@@ -37,7 +37,7 @@ class LoginContainer extends Component {
         <div>
           <TextField
             id="usr-login-username"
-            floatingLabelText="Username"
+            floatingLabelText="Email (username)"
             value={this.state.user.username}
             onChange={this.handleChange.bind(null, 'username')}
           />

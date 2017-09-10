@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
-const config = require('../../server/config/config');
 chai.use(chaiHttp);
 const server = require('../../index');
 const knex = require('../../server/db/connection');
@@ -31,7 +30,7 @@ describe('routes : auth', () => {
           res.redirects.length.should.eql(0);
           res.status.should.eql(200);
           res.type.should.eql('application/json');
-          const decoded = jwt.verify(res.body.token, config.jwtSecret);
+          const decoded = jwt.verify(res.body.token, process.env.JWT_SECRET);
           decoded.username.should.eql('jeremy');
           decoded.id.should.eql(1);
           decoded.name.should.eql('jerry');
@@ -89,7 +88,7 @@ describe('routes : auth', () => {
   });
   describe('GET /user', () => {
     it('should return a success', (done) => {
-      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
+      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, process.env.JWT_SECRET);
       chai.request(server)
         .get('/user')
         .set('Authorization', 'Bearer ' + token)
@@ -119,7 +118,7 @@ describe('routes : auth', () => {
   });
   describe('GET /user/admin', () => {
     it('should return a success', (done) => {
-      const token = jwt.sign({id: '1', username: 'kelly', name: 'kelly', email:'kelly@hotmail.com' }, config.jwtSecret);
+      const token = jwt.sign({id: '1', username: 'kelly', name: 'kelly', email:'kelly@hotmail.com' }, process.env.JWT_SECRET);
       chai.request(server)
         .get('/user/admin')
         .set('Authorization', 'Bearer ' + token)
@@ -147,7 +146,7 @@ describe('routes : auth', () => {
         });
     });
     it('should throw an error if a user is not an admin', (done) => {
-      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, config.jwtSecret);
+      const token = jwt.sign({id: '1', username: 'jeremy', name: 'jerry', email:'jerry@hotmail.com' }, process.env.JWT_SECRET);
       chai.request(server)
         .get('/user/admin')
         .set('Authorization', 'Bearer ' + token)

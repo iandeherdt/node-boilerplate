@@ -9,6 +9,7 @@ import validate from '../../validation/validateUser';
 import ContentSection from '../components/contentSection.jsx';
 import Loading from '../components/loading.jsx';
 import { REQUEST_STATUSSES } from '../constants';
+
 class RegisterUserContainer extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +81,10 @@ class RegisterUserContainer extends Component {
       </ContentSection>);
     }
     return (<div className="container margin-top-large">
+      { this.props.user.get('needsToRegister') ? <ContentSection className="margin-top-large">
+        <h2>{t('ACCOUNT NOT REGISTED YET')}</h2>
+        <div>{t('Social login was succesfull but we need additional information.')}</div>
+      </ContentSection> : null }
       <form className="light-background padding-left-right-large padding-bottom-large" style={{maxWidth:'720px'}}>
         <div className="margin-left-right-small">
           <h2 className="inlineH2">{t('personalInfoTitle')}</h2>

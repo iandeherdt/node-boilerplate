@@ -56,7 +56,6 @@ router.post('/', (req, res, next) => {
   return authHelpers.createUser(req, res, next)
     .then(() => {
       const token = jwt.sign({username: req.body.username}, process.env.JWT_SECRET, { expiresIn: '12h' });
-      res.json({ status: 'success' });
       return emailService.send({
         from:'ian.de.herdt@telenet.be',
         to: req.body.username,

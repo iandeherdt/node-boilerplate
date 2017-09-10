@@ -6,6 +6,7 @@ import { forgotPassword } from '../actions/user';
 import PropTypes from 'prop-types';
 import ContentSection from '../components/contentSection.jsx';
 import Loading from '../components/loading.jsx';
+
 class ResetPasswordContainer extends Component {
   constructor(props) {
     super(props);
