@@ -3,7 +3,7 @@ import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER,
   FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS,
   ACTIVATE_ACCOUNT_REQUEST, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS,
-  REQUEST_STATUSSES, LOGIN_SOCIAL_USER_SUCCESS } from '../../constants';
+  REQUEST_STATUSSES } from '../../constants';
 import reducer from '../user';
 
 const initialState = {
@@ -32,17 +32,6 @@ describe('user reducer', () => {
     assert.equal(nextState.get('isAuthenticated'), true);
     assert.equal(nextState.getIn(['user', 'id']), 1);
     assert.equal(nextState.getIn(['user', 'name']), 'ikke@mail.be');
-  });
-
-  it('handles LOGIN_SOCIAL_USER_SUCCESS', () => {
-    const action = {type: LOGIN_SOCIAL_USER_SUCCESS, data: {id:1, name:'ikke@mail.be'}, registered: false};
-    const nextState = reducer(undefined, action);
-    assert.equal(nextState.get('isAuthenticating'), false);
-    assert.equal(nextState.get('isAuthenticated'), true);
-    assert.equal(nextState.getIn(['user', 'id']), 1);
-    assert.equal(nextState.getIn(['user', 'name']), 'ikke@mail.be');
-    assert.equal(nextState.get('needsToRegister'), true);
-    assert.equal(nextState.get('social'), true);
   });
 
   it('handles LOGOUT_USER', () => {

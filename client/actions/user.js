@@ -76,6 +76,28 @@ export function register(user){
   };
 }
 
+export function registerSocial(user){
+  return dispatch => {
+    dispatch({
+      type: REGISTER_USER_REQUEST,
+    });
+    return api.registerSocial(user, (err, res) => {
+      if(err){
+        dispatch({
+          type: REGISTER_USER_FAILURE,
+          data: checkErrorReponse(err) ? err.response.body.message : t('registerFailed')
+        });
+      } else if(res.body){
+        dispatch({
+          type: REGISTER_USER_SUCCESS,
+          data: res.body,
+        });
+        history.push('login');
+      }
+    });
+  };
+}
+
 export function resetPassword(password, confirmPassword, token, history){
   return dispatch => {
     return api.resetPassword(password, confirmPassword, token, (err) => {
@@ -117,7 +139,7 @@ export function activateAccount(token){
     dispatch({
       type: ACTIVATE_ACCOUNT_REQUEST,
     });
-    return api.activateAccount(token, (err) => {
+    return api.activateAccount(token, (err, res) => {
       if(err){
         dispatch({
           type: ACTIVATE_ACCOUNT_FAILURE,
@@ -127,6 +149,11 @@ export function activateAccount(token){
         dispatch({
           type: ACTIVATE_ACCOUNT_SUCCESS,
         });
+        dispatch({
+          type: LOGIN_USER_SUCCESS,
+          data: res.body.user,
+        });
+        sessionStorage.setItem('token', res.body.token);
       }
     });
   };

@@ -48,7 +48,7 @@ describe('routes : user', () => {
           res.body.should.eql({'message': 'email sent'});
           sinon.assert.calledOnce(emailSpy);
           done();
-        });
+        }).catch(done);
     });
   });
   describe('PUT /user', () => {

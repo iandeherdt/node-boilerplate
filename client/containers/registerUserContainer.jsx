@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Address from '../components/address.jsx';
 import { register, registerSocial } from '../actions/user';
 import validate from '../../validation/validateUser';
+import validateSocial from '../../validation/validateSocialUser';
 import ContentSection from '../components/contentSection.jsx';
 import Loading from '../components/loading.jsx';
 import { REQUEST_STATUSSES } from '../constants';
@@ -47,14 +48,18 @@ class RegisterUserContainer extends Component {
     this.setState({address: currentUAddressState});
   }
   onRegisterClick(){
-    //todo add validation
     const serverUser = this.props.user.get('user') ? this.props.user.get('user').toJS() : null;
     const user = Object.assign({}, serverUser, this.state.user, this.state.address);
-    const validation = validate(user);
+    const social = serverUser && serverUser.id;
+    if(social){
+      delete user.password;
+      delete user.confirmPassword;
+    }
+    const validation = social ? validateSocial(user) : validate(user);
     if(validation.error && validation.error.isJoi){
       this.setState({validationErrors: validation.error.details});
       return;
-    } else if(serverUser && serverUser.id){
+    } else if(social){
       this.props.dispatch(registerSocial(user));
     } else {
       this.props.dispatch(register(user));
@@ -71,21 +76,22 @@ class RegisterUserContainer extends Component {
     return null;
   }
   render() {
+    const socialId = this.props.user.getIn(['user', 'id']);
     if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.REQUEST){
       return <Loading title={t('isRegistering')}/>;
     }
-    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.SUCCESS){
+    if(this.props.user.get('registerUserStatus') === REQUEST_STATUSSES.SUCCESS && !this.props.user.getIn(['user', 'id'])){
       return (<ContentSection className="margin-top-large">
         <h2>{t('REGISTER USER SUCCESS')}</h2>
         <div>{t('We have registered your account, but you still need to activate it.')}</div>
       </ContentSection>);
     }
     return (<div className="container margin-top-large">
-      { this.props.user.get('needsToRegister') ? <ContentSection className="margin-top-large">
-        <h2>{t('ACCOUNT NOT REGISTED YET')}</h2>
-        <div>{t('Social login was succesfull but we need additional information.')}</div>
-      </ContentSection> : null }
       <form className="light-background padding-left-right-large padding-bottom-large" style={{maxWidth:'720px'}}>
+        { socialId ? <ContentSection className="margin-top-bottom-large">
+          <h2>{t('ACCOUNT NOT REGISTED YET')}</h2>
+          <div>{t('Social login was succesfull but we need additional information.')}</div>
+        </ContentSection> : null }
         <div className="margin-left-right-small">
           <h2 className="inlineH2">{t('personalInfoTitle')}</h2>
         </div>
@@ -122,7 +128,7 @@ class RegisterUserContainer extends Component {
             />
           </div>
         </div>
-        <div className="flex-row">
+        { !socialId ? <div className="flex-row">
           <div className="flex-col">
             <TextField
               id="usr-register-password"
@@ -145,7 +151,7 @@ class RegisterUserContainer extends Component {
               autoComplete="off"
             />
           </div>
-        </div>
+        </div> : null}
         <Address onChange={this.handleChangeAddress} address={this.state.address} title={'Personal address'}
           getErrorMessageForInput={this.getErrorMessageForInput}/>
         <div className="align-content-right">

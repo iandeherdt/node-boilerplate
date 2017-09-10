@@ -38,6 +38,7 @@ jspm_packages
 
 # dist
 dist/
+dist/main.js
 
 #local-env
 .env

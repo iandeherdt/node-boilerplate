@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 module.exports = {
   send(opts, req, res, next){
-    transporter.sendMail(opts, (error) => {
+    return transporter.sendMail(opts, (error) => {
       if (error) {
         next(error);
       } else {

@@ -6,6 +6,8 @@ const emailService = require('../utils/emailService');
 const crypto = require('crypto');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
+const createTokenInfo = require('../utils/createTokenInfo');
+
 function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
@@ -130,8 +132,10 @@ function activateAccount(req, res, next){
     }
     knex('users').where({username: decoded.username})
       .update('registered', true)
-      .then(() => {
-        res.send('account activated');
+      .then((user) => {
+        const userInfo = createTokenInfo(user);
+        const token = jwt.sign(userInfo, process.env.JWT_SECRET, { expiresIn: '12h' });
+        return res.json({ token, user: userInfo });
       });
   });
 }
