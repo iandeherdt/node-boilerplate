@@ -154,6 +154,7 @@ export function activateAccount(token){
           data: res.body.user,
         });
         sessionStorage.setItem('token', res.body.token);
+        history.push('');
       }
     });
   };
