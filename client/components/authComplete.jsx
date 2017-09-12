@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
-import { oAuthLoginSuccess } from '../actions/user';
+import { oAuthLoginSuccess } from '../actions/user.actions';
 const AuthComplete = ({ ...rest }) => {
   return (<Route {...rest} render={props => {
     const parsed = queryString.parse(props.location.search);

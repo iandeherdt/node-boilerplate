@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { REGISTER_USER_FAILURE, DISMISS_ERROR } from '../../constants';
-import reducer from '../error';
+import reducer from '../error.reducer';
 import { List, fromJS } from 'immutable';
 
 describe('user reducer', () => {

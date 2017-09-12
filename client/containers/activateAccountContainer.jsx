@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { activateAccount } from '../actions/user';
+import { activateAccount } from '../actions/user.actions';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import ContentSection from '../components/contentSection.jsx';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { forgotPassword } from '../actions/user';
+import { forgotPassword } from '../actions/user.actions';
 import PropTypes from 'prop-types';
 import ContentSection from '../components/contentSection.jsx';
 import Loading from '../components/loading.jsx';

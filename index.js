@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const routeConfig = require('./server/config/route-config.js');
+const routeConfig = require('./server/config/route.config');
 const app = express();
 // *** load environment variables *** //
 require('dotenv').config();

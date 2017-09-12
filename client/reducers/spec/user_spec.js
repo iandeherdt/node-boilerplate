@@ -4,7 +4,7 @@ import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGOUT_USER,
   REGISTER_USER_REQUEST, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS,
   ACTIVATE_ACCOUNT_REQUEST, ACTIVATE_ACCOUNT_FAILURE, ACTIVATE_ACCOUNT_SUCCESS,
   REQUEST_STATUSSES } from '../../constants';
-import reducer from '../user';
+import reducer from '../user.reducer';
 
 const initialState = {
   isAuthenticated: false,
