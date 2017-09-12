@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { dismissError } from '../actions/error';
+import { dismissError } from '../actions/error.actions';
 class ErrorBar extends Component {
   constructor(props){
     super(props);

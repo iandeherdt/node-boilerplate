@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import { login } from '../actions/user';
+import { login } from '../actions/user.actions';
 import PropTypes from 'prop-types';
 import { NavLink} from 'react-router-dom';
 

@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import Address from '../components/address.jsx';
-import { register, registerSocial } from '../actions/user';
+import { register, registerSocial } from '../actions/user.actions';
 import validate from '../../validation/validateUser';
 import validateSocial from '../../validation/validateSocialUser';
 import ContentSection from '../components/contentSection.jsx';

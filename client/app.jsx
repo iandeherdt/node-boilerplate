@@ -26,7 +26,6 @@ require('./styles/main.scss');
 
 const store = configureStore();
 
-//configure translation
 import { Configure, Translate } from './I18n/translate';
 Configure('en');
 global.t = Translate;
